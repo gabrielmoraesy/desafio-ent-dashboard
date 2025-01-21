@@ -1,50 +1,49 @@
-# React + TypeScript + Vite
+<p align="center">
+  <h1>📊 App de Dashboards</h1>
+</p>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Description
 
-Currently, two official plugins are available:
+O **App de Dashboard** é uma aplicação intuitiva e de fácil entendimento para gerenciar todos os dados do seu estabelecimento, transformando-os em dashboards visuais dinâmicos. Através dessa ferramenta, você pode acompanhar métricas importantes como o NPS, feedbacks de clientes, e outros dados relevantes de forma centralizada e visualmente acessível.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Technologies used:
 
-## Expanding the ESLint configuration
+- **Front-end**: React Vite, Tailwind CSS, ApexCharts, ShadCn, Json Server  
+  <img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=react&logoColor=black" alt="React" />
+  <img src="https://img.shields.io/badge/TailwindCSS-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white" alt="Tailwind CSS" />
+  <img src="https://img.shields.io/badge/ApexCharts-FF9900?style=flat-square&logo=apexcharts&logoColor=white" alt="ApexCharts" />
+  <img src="https://img.shields.io/badge/ShadCN-008B8B?style=flat-square&logo=shadcn&logoColor=white" alt="ShadCn" />
+  <img src="https://img.shields.io/badge/JSON%20Server-6CC24A?style=flat-square&logo=json&logoColor=white" alt="JSON Server" />
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- **Requisições HTTP**: Axios  
+  <img src="https://img.shields.io/badge/Axios-5A29E4?style=flat-square&logo=axios&logoColor=white" alt="Axios" />
 
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## Installation
+```bash
+$ npm install
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+## Create .env file and paste inside it
+```bash
+$ VITE_BACKEND_URL=http://localhost:3000
 ```
+
+## Running the app
+```bash
+$ npm run db
+$ npm run dev
+```
+
+## Features
+
+### Dashboard
+
+- [x] O sistema exibe diferentes métricas do estabelecimento de forma gráfica e intuitiva.
+- [x] O sistema permite visualizar o NPS por unidade, praça e mesa.
+- [x] O sistema exibe o total de respostas de clientes por mês.
+- [x] O sistema exibe comentários e feedbacks dos clientes de maneira organizada e visual.
+- [x] O sistema permite filtrar as métricas por período, tipo de resposta, e outros critérios específicos.
+- [x] O sistema oferece uma interface responsiva, adaptando-se a diferentes tamanhos de tela para visualização em dispositivos móveis, tablets e desktops.
+
+
+
