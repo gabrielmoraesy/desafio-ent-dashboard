@@ -2,8 +2,12 @@ import { ModeToggle } from "@/components/ModeToggle/mode-toggle";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { useReviewContext } from "@/contexts/ReviewProvider/review-provider";
 import { useHeaderDashboardReviews } from "./HeaderDashboardReviews.hook";
+import { Filter } from "lucide-react";
+import { FilterDataModal } from "@/components/Modals/FilterDataModal";
+import { useState } from "react";
 
 export const HeaderDashboardReviews = () => {
+    const [isOpenFilterData, setIsOpenFilterData] = useState(false)
     const { reviews, unitSelected } = useReviewContext();
 
     const {
@@ -25,9 +29,13 @@ export const HeaderDashboardReviews = () => {
                 <h1 className="text-xl sm:text-3xl font-bold uppercase">
                     Net Promoter Score <span className="capitalize">{unitSelected && `| Unidade ${unitSelected}`}</span>
                 </h1>
-                <div className="flex justify-center items-center gap-1">
+                <div className="flex justify-center items-center gap-1.5">
                     <SidebarTrigger />
                     <ModeToggle />
+                    <Filter
+                        onClick={() => setIsOpenFilterData((prevState) => !prevState)}
+                        className="bg-[#3C83C4] text-white w-10 h-10 p-2 rounded-xl hover:bg-[#2d6294] duration-300"
+                    />
                 </div>
             </div>
             <div className="flex max-[600px]:flex-col max-[750px]:flex-wrap max-[750px]:justify-center max-[750px]:gap-2 mt-4 gap-3">
@@ -56,6 +64,8 @@ export const HeaderDashboardReviews = () => {
                     <p>Avaliações</p>
                 </div>
             </div>
+
+            <FilterDataModal isOpen={isOpenFilterData} setIsOpen={setIsOpenFilterData} />
         </header>
     );
 };

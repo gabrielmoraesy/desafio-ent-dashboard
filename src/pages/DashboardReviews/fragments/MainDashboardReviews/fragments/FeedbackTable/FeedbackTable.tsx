@@ -58,11 +58,11 @@ export const FeedbackTable = () => {
             </div>
             <div className="flex items-center justify-between mt-4 max-[920px]:flex-col max-[920px]:gap-2">
                 <div className="flex gap-2">
-                    <Button variant="outline" onClick={handleJumpBack} disabled={currentPage === 1} className="text-[10px] sm:text-base"
+                    <Button variant="outline" onClick={handleJumpBack} disabled={currentPage === 1} className="text-[10px] sm:text-sm"
                     >
                         {"<< Voltar 10"}
                     </Button>
-                    <Button variant="outline" onClick={handlePreviousPage} disabled={currentPage === 1} className="text-[10px] sm:text-base">
+                    <Button variant="outline" onClick={handlePreviousPage} disabled={currentPage === 1} className="text-[10px] sm:text-sm">
                         {"< Anterior"}
                     </Button>
                 </div>
@@ -70,10 +70,10 @@ export const FeedbackTable = () => {
                     Página {currentPage} de {totalPages}
                 </span>
                 <div className="flex gap-2">
-                    <Button variant="outline" onClick={handleNextPage} disabled={currentPage === totalPages} className="text-[10px] sm:text-base">
+                    <Button variant="outline" onClick={handleNextPage} disabled={currentPage === totalPages} className="text-[10px] sm:text-sm">
                         {"Próxima >"}
                     </Button>
-                    <Button variant="outline" onClick={handleJumpForward} disabled={currentPage === totalPages} className="text-[10px] sm:text-base">
+                    <Button variant="outline" onClick={handleJumpForward} disabled={currentPage === totalPages} className="text-[10px] sm:text-sm">
                         {"Avançar 10 >>"}
                     </Button>
                 </div>

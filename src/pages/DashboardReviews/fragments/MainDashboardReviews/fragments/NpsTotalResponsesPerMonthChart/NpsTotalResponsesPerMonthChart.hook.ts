@@ -1,81 +1,224 @@
-import { useState, useEffect } from 'react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useTheme } from "@/contexts/ThemeProvider/theme-provider";
+import { useEffect, useState } from "react";
 
-interface Review {
-  idAvaliacao: number;
-  nota: number;
-  statusNPS: string;
-  comentario: string | null;
-  dataCadastro: string;
-  unidade: string;
-  praca: string;
-  mesa: string;
+interface IChartOptions {
+  colors: string[];
+  chart: {
+    type: "line";
+    height: number;
+    stacked: boolean;
+    toolbar: {
+      show: boolean;
+    };
+    events: {
+      dataPointSelection: (event: any, chartContext: any, config: any) => void;
+    };
+  };
+  dataLabels: {
+    enabled: boolean;
+    formatter: (val: any) => string;
+    style: {
+      fontSize: string;
+      colors: string[];
+    };
+  };
+  stroke: {
+    width: number;
+    colors: string;
+  };
+  xaxis: {
+    categories: string[];
+    labels: {
+      formatter: (val: any) => string;
+      style: {
+        colors: string;
+        fontSize: string;
+      };
+    };
+  };
+  yaxis: {
+    title: {
+      text: string | undefined;
+    };
+    labels: {
+      show: boolean;
+      style: {
+        colors: string;
+        fontSize: string;
+      };
+      offsetY: number;
+    };
+  };
+  tooltip: {
+    y: {
+      formatter: (val: any) => string;
+    };
+  };
+  fill: {
+    opacity: number;
+  };
+  legend: {
+    position: "top" | "bottom" | "left" | "right";
+    horizontalAlign: "left" | "center" | "right";
+    offsetX: number;
+    offsetY: number;
+    labels: {
+      colors: string;
+    };
+  };
+  grid: {
+    show: boolean;
+  };
 }
 
-const calculateNps = (reviews: Review[]) => {
-  const promoters = reviews.filter(review => review.statusNPS === 'PROMOTORAS').length;
-  const detractors = reviews.filter(review => review.statusNPS === 'DETRAUTORES').length;
-  const totalResponses = reviews.length;
+interface ISeries {
+  name: string;
+  data: number[];
+}
 
-  if (totalResponses === 0) return 0;
+interface MonthlyData {
+  month: string;
+  nps: number;
+  responses: number;
+}
 
-  const nps = ((promoters - detractors) / totalResponses) * 100;
-  return nps;
-};
+interface useNpsTotalResponsesPerMonthChartProps {
+  monthlyData: MonthlyData[];
+  unitSelected: string | null;
+}
 
-const groupReviewsByMonth = (reviews: Review[]) => {
-  return reviews.reduce((acc, review) => {
-    const monthYear = new Date(review.dataCadastro).toLocaleString('default', {
-      month: 'long',
-      year: 'numeric',
-    });
-    if (!acc[monthYear]) acc[monthYear] = { totalResponses: 0, reviews: [] };
-    acc[monthYear].totalResponses += 1;
-    acc[monthYear].reviews.push(review);
-    return acc;
-  }, {} as { [key: string]: { totalResponses: number; reviews: Review[] } });
-};
+export function useNpsTotalResponsesPerMonthChart({
+  monthlyData,
+  unitSelected,
+}: useNpsTotalResponsesPerMonthChartProps) {
+  const { theme } = useTheme();
 
-const getLast12Months = () => {
-  const currentDate = new Date();
-  const months = [];
-  for (let i = 0; i < 12; i++) {
-    const month = new Date(currentDate.setMonth(currentDate.getMonth() - 1));
-    months.push(month.toLocaleString('default', { month: 'long', year: 'numeric' }));
-  }
-  return months.reverse(); // Retorna os últimos 12 meses de forma cronológica
-};
+  const initialChartOptions: IChartOptions = {
+    colors: ["#3C83C4", "#FFBD33", "#33FF57"],
+    chart: {
+      type: "line",
+      height: 50,
+      stacked: true,
+      toolbar: {
+        show: false,
+      },
+      events: {
+        dataPointSelection: () => { }, // Pode ser utilizado para ações futuras
+      },
+    },
+    dataLabels: {
+      enabled: true,
+      formatter: function (val: any) {
+        return val;
+      },
+      style: {
+        fontSize: "12px",
+        colors: ["#fff"],
+      },
+    },
+    stroke: {
+      width: 2,
+      colors: "#000",
+    },
+    xaxis: {
+      categories: [],
+      labels: {
+        formatter: function (val: any) {
+          return val;
+        },
+        style: {
+          colors: "#fff",
+          fontSize: "12px",
+        },
+      },
+    },
+    yaxis: {
+      title: {
+        text: undefined,
+      },
+      labels: {
+        show: true,
+        style: {
+          colors: "#fff",
+          fontSize: "12px",
+        },
+        offsetY: 10,
+      },
+    },
+    tooltip: {
+      y: {
+        formatter: function (val: any) {
+          return val;
+        },
+      },
+    },
+    fill: {
+      opacity: 1,
+    },
+    legend: {
+      position: "top",
+      horizontalAlign: "left",
+      offsetX: 40,
+      offsetY: 10,
+      labels: {
+        colors: theme === "dark" ? "#fff" : "#000",
+      },
+    },
+    grid: {
+      show: false,
+    },
+  };
 
-export const useNpsTotalResponsesPerMonth = (reviews: Review[], unidadeSelecionada: string | null) => {
-  const [data, setData] = useState<{ [key: string]: { nps: number; totalResponses: number } }>({});
+  const [chartData, setChartData] = useState<{
+    options: IChartOptions;
+    series: ISeries[];
+  }>({
+    options: initialChartOptions,
+    series: [],
+  });
 
   useEffect(() => {
-    const filteredReviews = unidadeSelecionada
-      ? reviews.filter(review => review.unidade === unidadeSelecionada)
-      : reviews;
+    const filteredData = unitSelected
+      ? monthlyData.filter((data) => data.unit === unitSelected)
+      : monthlyData;
 
-    // Filtra as avaliações para os últimos 12 meses
-    const last12Months = getLast12Months();
-    const filteredByMonth = filteredReviews.filter(review => {
-      const monthYear = new Date(review.dataCadastro).toLocaleString('default', {
-        month: 'long',
-        year: 'numeric',
-      });
-      return last12Months.includes(monthYear);
+    const months = [...new Set(filteredData.map((data) => data.month))];
+    const npsData = months.map((month) => {
+      const monthData = filteredData.filter((data) => data.month === month);
+      const totalNps = monthData.reduce((acc, curr) => acc + curr.nps, 0);
+      return totalNps / monthData.length || 0;
     });
 
-    const groupedData = groupReviewsByMonth(filteredByMonth);
-    const result: { [key: string]: { nps: number; totalResponses: number } } = {};
+    const responseCounts = months.map((month) => {
+      return filteredData
+        .filter((data) => data.month === month)
+        .reduce((acc, curr) => acc + curr.responses, 0);
+    });
 
-    for (const monthYear of last12Months) {
-      const { totalResponses, reviews } = groupedData[monthYear] || { totalResponses: 0, reviews: [] };
-      result[monthYear] = {
-        nps: calculateNps(reviews),
-        totalResponses,
-      };
-    }
+    const axisColor = theme === "dark" ? "#fff" : "#000";
 
-    setData(result);
-  }, [reviews, unidadeSelecionada]);
+    setChartData({
+      series: [
+        { name: "NPS", data: npsData },
+        { name: "Total Respostas", data: responseCounts },
+      ],
+      options: {
+        ...initialChartOptions,
+        xaxis: {
+          categories: months,
+          labels: {
+            ...initialChartOptions.xaxis.labels,
+            style: { ...initialChartOptions.xaxis.labels.style, colors: axisColor },
+          },
+        },
+        legend: {
+          ...initialChartOptions.legend,
+          labels: { colors: axisColor },
+        },
+      },
+    });
+  }, [monthlyData, unitSelected, theme]);
 
-  return data;
-};
+  return { chartData };
+}

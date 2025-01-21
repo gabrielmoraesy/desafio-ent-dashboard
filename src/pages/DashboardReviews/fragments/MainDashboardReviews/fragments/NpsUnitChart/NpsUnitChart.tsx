@@ -13,6 +13,7 @@ interface NpsUnitChartProps {
 
 export const NpsUnitChart = ({ npsUnitData }: NpsUnitChartProps) => {
   const { setUnitSelected } = useReviewContext();
+
   const { NpsUnitChartData } = useNpsUnitChart({ npsUnitData, setUnitSelected });
 
   return (

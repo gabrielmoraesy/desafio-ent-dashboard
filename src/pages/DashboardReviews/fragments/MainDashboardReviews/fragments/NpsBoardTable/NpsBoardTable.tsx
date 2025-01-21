@@ -53,7 +53,7 @@ export const NpsBoardTable = () => {
                             variant="outline"
                             onClick={handlePreviousPage}
                             disabled={currentPage === 1}
-                            className="text-[10px] sm:text-base"
+                            className="text-[10px] sm:text-sm"
                         >
                             {"< Anterior"}
                         </Button>
@@ -66,7 +66,7 @@ export const NpsBoardTable = () => {
                             variant="outline"
                             onClick={handleNextPage}
                             disabled={currentPage === totalPages}
-                            className="text-[10px] sm:text-base"
+                            className="text-[10px] sm:text-sm"
                         >
                             {"Próxima >"}
                         </Button>
