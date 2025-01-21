@@ -20,15 +20,24 @@ O **App de Dashboard** é uma aplicação intuitiva e de fácil entendimento par
 ## Installation
 ```bash
 $ npm install
+```
 
 ## Create .env file and paste inside it
 ```bash
 $ VITE_BACKEND_URL=http://localhost:3000
+```
 
 ## Running the app
 ```bash
 $ npm run db
 $ npm run dev
+```
+
+## Features
+
+### Dashboard
+
+- [x] Exibição de todos os dados de forma dinâmica e intuitiva.
 
 
 
