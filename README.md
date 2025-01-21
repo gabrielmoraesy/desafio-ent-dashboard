@@ -18,10 +18,17 @@ O **App de Dashboard** é uma aplicação intuitiva e de fácil entendimento par
   <img src="https://img.shields.io/badge/Axios-5A29E4?style=flat-square&logo=axios&logoColor=white" alt="Axios" />
 
 ## Installation
-
 ```bash
 $ npm install
+
+## Create .env file and paste inside it
+```bash
+$ VITE_BACKEND_URL=http://localhost:3000
+
+## Running the app
+```bash
 $ npm run db
 $ npm run dev
+
 
 
