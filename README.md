@@ -37,7 +37,12 @@ $ npm run dev
 
 ### Dashboard
 
-- [x] Exibição de todos os dados de forma dinâmica e intuitiva.
+- [x] O sistema exibe diferentes métricas do estabelecimento de forma gráfica e intuitiva.
+- [x] O sistema permite visualizar o NPS por unidade, praça e mesa.
+- [x] O sistema exibe o total de respostas de clientes por mês.
+- [x] O sistema exibe comentários e feedbacks dos clientes de maneira organizada e visual.
+- [x] O sistema permite filtrar as métricas por período, tipo de resposta, e outros critérios específicos.
+- [x] O sistema oferece uma interface responsiva, adaptando-se a diferentes tamanhos de tela para visualização em dispositivos móveis, tablets e desktops.
 
 
 
