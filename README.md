@@ -2,11 +2,11 @@
   <h1>📊 App de Dashboards</h1>
 </p>
 
-## Descrição
+## Description
 
 O **App de Dashboard** é uma aplicação intuitiva e de fácil entendimento para gerenciar todos os dados do seu estabelecimento, transformando-os em dashboards visuais dinâmicos. Através dessa ferramenta, você pode acompanhar métricas importantes como o NPS, feedbacks de clientes, e outros dados relevantes de forma centralizada e visualmente acessível.
 
-## Tecnologias usadas:
+## Technologies used:
 
 - **Front-end**: React Vite, Tailwind CSS, ApexCharts, ShadCn, Json Server  
   <img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=react&logoColor=black" alt="React" />
