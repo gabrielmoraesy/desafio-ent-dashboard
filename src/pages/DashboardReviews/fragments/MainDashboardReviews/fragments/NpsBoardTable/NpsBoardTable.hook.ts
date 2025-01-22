@@ -31,11 +31,7 @@ export function useNpsBoardTable({
     };
 
     const npsTableData = useMemo(() => {
-        const filteredReviews = unitSelected
-            ? reviews.filter((review) => review.unidade === unitSelected)
-            : reviews;
-
-        const groupedByMesa = filteredReviews.reduce((acc: any, review) => {
+        const groupedByMesa = reviews.reduce((acc: any, review) => {
             const mesa = review.mesa;
             const nota = review.nota;
             const status = review.statusNPS;

@@ -6,7 +6,7 @@ import { useNpsDistributionChart } from "./NpsDistributionChart.hook";
 export const NpsDistributionChart = () => {
   const { reviews, unitSelected } = useReviewContext();
 
-  const { chartData } = useNpsDistributionChart({ reviews, unitSelected });
+  const { chartData } = useNpsDistributionChart({ reviews });
 
   return (
     <div className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg col-span-1">

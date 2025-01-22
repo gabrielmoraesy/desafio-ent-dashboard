@@ -81,12 +81,10 @@ interface ISeries {
 
 interface useNpsTotalResponsesPerMonthChartProps {
   reviews: IReview[];
-  unitSelected: string | null;
 }
 
 export function useNpsTotalResponsesPerMonthChart({
   reviews,
-  unitSelected,
 }: useNpsTotalResponsesPerMonthChartProps) {
   const { theme } = useTheme();
 
@@ -181,12 +179,8 @@ export function useNpsTotalResponsesPerMonthChart({
       return format(monthDate, "yyyy-MM");
     });
 
-    const filteredData = unitSelected
-      ? reviews.filter((review) => review.unidade === unitSelected)
-      : reviews;
-
     const npsData = months.map((month) => {
-      const monthlyReviews = filteredData.filter((review) =>
+      const monthlyReviews = reviews.filter((review) =>
         format(new Date(review.dataCadastro), "yyyy-MM") === month
       );
 
@@ -208,7 +202,7 @@ export function useNpsTotalResponsesPerMonthChart({
     });
 
     const responseCounts = months.map((month) => {
-      return filteredData.filter((review) =>
+      return reviews.filter((review) =>
         format(new Date(review.dataCadastro), "yyyy-MM") === month
       ).length;
     });
@@ -236,7 +230,7 @@ export function useNpsTotalResponsesPerMonthChart({
         },
       },
     });
-  }, [reviews, unitSelected, theme, initialChartOptions]);
+  }, [reviews, theme, initialChartOptions]);
 
   return { chartData };
 }

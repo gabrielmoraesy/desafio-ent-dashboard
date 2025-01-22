@@ -6,8 +6,7 @@ import { useNpsTotalResponsesPerMonthChart } from "./NpsTotalResponsesPerMonthCh
 export const NpsTotalResponsesPerMonthChart = () => {
   const { reviews, unitSelected } = useReviewContext();
   const { chartData } = useNpsTotalResponsesPerMonthChart({
-    reviews,
-    unitSelected,
+    reviews
   });
 
   return (

@@ -9,10 +9,9 @@ interface IReview {
 
 interface useNpsDistributionChartProps {
   reviews: IReview[];
-  unitSelected: string | null;
 }
 
-export function useNpsDistributionChart({ reviews, unitSelected }: useNpsDistributionChartProps) {
+export function useNpsDistributionChart({ reviews }: useNpsDistributionChartProps) {
   const { theme } = useTheme();
 
   const [chartData, setChartData] = useState<{
@@ -54,13 +53,9 @@ export function useNpsDistributionChart({ reviews, unitSelected }: useNpsDistrib
   });
 
   useEffect(() => {
-    const filteredReviews = unitSelected
-      ? reviews.filter((review) => review.unidade === unitSelected)
-      : reviews;
-
     const ratingCounts = Array(11).fill(0);
 
-    filteredReviews.forEach((review) => {
+    reviews.forEach((review) => {
       const rating = Math.round(review.nota);
       ratingCounts[rating] += 1;
     });
@@ -83,7 +78,7 @@ export function useNpsDistributionChart({ reviews, unitSelected }: useNpsDistrib
         },
       },
     });
-  }, [reviews, unitSelected, theme]);
+  }, [reviews, theme]);
 
   return { chartData };
 }

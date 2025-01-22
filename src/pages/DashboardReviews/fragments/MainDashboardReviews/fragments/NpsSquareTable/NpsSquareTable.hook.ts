@@ -28,11 +28,7 @@ export function useNpsSquareTable({ reviews, unitSelected }: useNpsSquareTablePr
     };
 
     const npsSquareData = useMemo(() => {
-        const filteredReviews = unitSelected
-            ? reviews.filter((review) => review.unidade === unitSelected)
-            : reviews;
-
-        const groupedByPraca = filteredReviews.reduce((acc: any, review) => {
+        const groupedByPraca = reviews.reduce((acc: any, review) => {
             const praca = review.praca;
             const nota = review.nota;
             const status = review.statusNPS;

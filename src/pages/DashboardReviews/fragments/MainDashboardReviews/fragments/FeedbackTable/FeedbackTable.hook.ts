@@ -1,5 +1,5 @@
-import { useMemo, useState, useEffect } from "react";
 import { IReview } from "@/interfaces/IReview";
+import { useEffect, useState } from "react";
 
 interface useFeedbackTableProps {
     reviews: IReview[];
@@ -10,16 +10,10 @@ export function useFeedbackTable({ reviews, unitSelected }: useFeedbackTableProp
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
 
-    const filteredReviews = useMemo(() => {
-        return unitSelected
-            ? reviews.filter((review) => review.unidade === unitSelected)
-            : reviews;
-    }, [reviews, unitSelected]);
-
-    const totalPages = Math.ceil(filteredReviews.length / itemsPerPage);
+    const totalPages = Math.ceil(reviews.length / itemsPerPage);
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    const currentReviews = filteredReviews.slice(startIndex, endIndex);
+    const currentReviews = reviews.slice(startIndex, endIndex);
 
     const handlePreviousPage = () => {
         if (currentPage > 1) {
