@@ -1,11 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
-import React, { createContext, useContext, useState, ReactNode, useEffect } from "react";
 import { IReview } from "@/interfaces/IReview";
-import { z } from "zod";
-
-const dateSchema = z.string().refine(value => !isNaN(Date.parse(value)), {
-    message: "Data inválida",
-});
+import React, { createContext, ReactNode, useContext, useEffect, useState } from "react";
 
 interface ReviewContextType {
     reviews: IReview[];
@@ -17,7 +12,7 @@ interface ReviewContextType {
     endDate: string;
     setEndDate: React.Dispatch<React.SetStateAction<string>>;
     resetReviews: () => void;
-    filterReviewsByDate: () => void
+    filterReviews: () => void
 }
 
 const ReviewContext = createContext<ReviewContextType | undefined>(undefined);
@@ -29,32 +24,21 @@ export const ReviewProvider = ({ children }: { children: ReactNode }) => {
     const [endDate, setEndDate] = useState<string>(new Date().toISOString().split("T")[0]);
     const [initialReviews, setInitialReviews] = useState<IReview[]>([]);
 
-    const filterReviewsByDate = () => {
-        const parsedStartDate = dateSchema.safeParse(startDate);
-        const parsedEndDate = dateSchema.safeParse(endDate);
-
-        if (!parsedStartDate.success || !parsedEndDate.success) {
-            alert("Uma ou ambas as datas são inválidas");
-            return;
-        }
-
-        const filteredReviews = reviews.filter((review) => {
+    const filterReviews = () => {
+        const filteredReviews = initialReviews.filter((review) => {
             const reviewDate = new Date(review.dataCadastro).toISOString().split("T")[0];
-            return reviewDate >= startDate && reviewDate <= endDate;
+            const isWithinDateRange = reviewDate >= startDate && reviewDate <= endDate;
+            const isMatchingUnit = !unitSelected || review.unidade === unitSelected;
+
+            return isWithinDateRange && isMatchingUnit;
         });
 
         setReviews(filteredReviews);
     };
 
-    const filterByUnit = () => {
-        let filteredReviews = [...initialReviews];
-
-        if (unitSelected) {
-            filteredReviews = filteredReviews.filter(review => review.unidade === unitSelected);
-        }
-
-        setReviews(filteredReviews);
-    };
+    useEffect(() => {
+        filterReviews()
+    }, [unitSelected])
 
     const resetReviews = () => {
         setReviews(initialReviews);
@@ -65,10 +49,6 @@ export const ReviewProvider = ({ children }: { children: ReactNode }) => {
             setInitialReviews(reviews);
         }
     }, [reviews]);
-
-    useEffect(() => {
-        filterByUnit();
-    }, [unitSelected]);
 
     return (
         <ReviewContext.Provider
@@ -81,8 +61,8 @@ export const ReviewProvider = ({ children }: { children: ReactNode }) => {
                 setStartDate,
                 endDate,
                 setEndDate,
-                filterReviewsByDate,
                 resetReviews,
+                filterReviews
             }}
         >
             {children}
