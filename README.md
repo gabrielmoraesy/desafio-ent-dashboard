@@ -8,11 +8,12 @@ O **App de Dashboard** é uma aplicação intuitiva e de fácil entendimento par
 
 ## Technologies used:
 
-- **Front-end**: React Vite, Tailwind CSS, ApexCharts, ShadCn, Json Server  
+- **Front-end**: React Vite, Tailwind CSS, ApexCharts, ShadCn, React-hot-toast e Json Server.
   <img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=react&logoColor=black" alt="React" />
   <img src="https://img.shields.io/badge/TailwindCSS-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white" alt="Tailwind CSS" />
   <img src="https://img.shields.io/badge/ApexCharts-FF9900?style=flat-square&logo=apexcharts&logoColor=white" alt="ApexCharts" />
   <img src="https://img.shields.io/badge/ShadCN-008B8B?style=flat-square&logo=shadcn&logoColor=white" alt="ShadCn" />
+  <img src="https://img.shields.io/badge/React%20Hot%20Toast-000000?style=flat-square&logo=react&logoColor=white" alt="React Hot Toast" />
   <img src="https://img.shields.io/badge/JSON%20Server-6CC24A?style=flat-square&logo=json&logoColor=white" alt="JSON Server" />
 
 - **Requisições HTTP**: Axios  
