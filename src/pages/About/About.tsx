@@ -1,3 +1,5 @@
+import { ModeToggle } from "@/components/ModeToggle/mode-toggle";
+import { SidebarTrigger } from "@/components/ui/sidebar";
 import { FaCloud, FaEnvelope, FaGithub, FaInstagram, FaLinkedin, FaPhone } from "react-icons/fa";
 import { SiReact, SiTailwindcss } from "react-icons/si";
 import { Link } from "react-router-dom";
@@ -5,9 +7,15 @@ import { Link } from "react-router-dom";
 export const About = () => {
   return (
     <div className="min-h-screen max-w-4xl mx-auto p-4 sm:p-8">
-      <h1 className="text-2xl sm:text-3xl font-bold text-center mb-4">
-        Sobre o <span className="text-[#3C83C4] font-extrabold">App de Dashboards</span>
-      </h1>
+      <div className="flex items-center justify-between mb-4">
+        <h1 className="text-2xl sm:text-3xl font-extrabold dark:text-white tracking-wide">Sobre o <span className="text-[#3C83C4] font-extrabold text-center">App de Dashboards</span></h1>
+        <div className="flex">
+          <SidebarTrigger />
+          <ModeToggle />
+        </div>
+      </div>
+
+
       <p className="text-base sm:text-lg mb-4">
         O App de Dashboard é uma aplicação intuitiva e de fácil entendimento para gerenciar todos os dados do seu estabelecimento transformando-os em dashboards.
       </p>

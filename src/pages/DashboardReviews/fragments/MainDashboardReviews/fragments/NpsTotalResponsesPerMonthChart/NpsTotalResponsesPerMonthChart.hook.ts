@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useTheme } from "@/contexts/ThemeProvider/theme-provider";
-import { useEffect, useState } from "react";
+import { IReview } from "@/interfaces/IReview";
+import { format, subMonths } from "date-fns";
+import { useEffect, useState, useMemo } from "react";
 
 interface IChartOptions {
   colors: string[];
@@ -25,7 +27,7 @@ interface IChartOptions {
   };
   stroke: {
     width: number;
-    colors: string;
+    colors: string[];
   };
   xaxis: {
     categories: string[];
@@ -77,25 +79,19 @@ interface ISeries {
   data: number[];
 }
 
-interface MonthlyData {
-  month: string;
-  nps: number;
-  responses: number;
-}
-
 interface useNpsTotalResponsesPerMonthChartProps {
-  monthlyData: MonthlyData[];
+  reviews: IReview[];
   unitSelected: string | null;
 }
 
 export function useNpsTotalResponsesPerMonthChart({
-  monthlyData,
+  reviews,
   unitSelected,
 }: useNpsTotalResponsesPerMonthChartProps) {
   const { theme } = useTheme();
 
-  const initialChartOptions: IChartOptions = {
-    colors: ["#3C83C4", "#FFBD33", "#33FF57"],
+  const initialChartOptions = useMemo<IChartOptions>(() => ({
+    colors: ["#1E90FF", "#32CD32"],
     chart: {
       type: "line",
       height: 50,
@@ -104,7 +100,7 @@ export function useNpsTotalResponsesPerMonthChart({
         show: false,
       },
       events: {
-        dataPointSelection: () => { }, // Pode ser utilizado para ações futuras
+        dataPointSelection: () => { },
       },
     },
     dataLabels: {
@@ -114,12 +110,12 @@ export function useNpsTotalResponsesPerMonthChart({
       },
       style: {
         fontSize: "12px",
-        colors: ["#fff"],
+        colors: ["#000"],
       },
     },
     stroke: {
       width: 2,
-      colors: "#000",
+      colors: ["#1E90FF", "#32CD32"],
     },
     xaxis: {
       categories: [],
@@ -140,7 +136,7 @@ export function useNpsTotalResponsesPerMonthChart({
       labels: {
         show: true,
         style: {
-          colors: "#fff",
+          colors: "#000",
           fontSize: "12px",
         },
         offsetY: 10,
@@ -168,7 +164,7 @@ export function useNpsTotalResponsesPerMonthChart({
     grid: {
       show: false,
     },
-  };
+  }), [theme]);
 
   const [chartData, setChartData] = useState<{
     options: IChartOptions;
@@ -179,22 +175,44 @@ export function useNpsTotalResponsesPerMonthChart({
   });
 
   useEffect(() => {
-    const filteredData = unitSelected
-      ? monthlyData.filter((data) => data.unit === unitSelected)
-      : monthlyData;
+    const currentDate = new Date();
+    const months = Array.from({ length: 12 }).map((_, index) => {
+      const monthDate = subMonths(currentDate, index);
+      return format(monthDate, "yyyy-MM");
+    });
 
-    const months = [...new Set(filteredData.map((data) => data.month))];
+    const filteredData = unitSelected
+      ? reviews.filter((review) => review.unidade === unitSelected)
+      : reviews;
+
     const npsData = months.map((month) => {
-      const monthData = filteredData.filter((data) => data.month === month);
-      const totalNps = monthData.reduce((acc, curr) => acc + curr.nps, 0);
-      return totalNps / monthData.length || 0;
+      const monthlyReviews = filteredData.filter((review) =>
+        format(new Date(review.dataCadastro), "yyyy-MM") === month
+      );
+
+
+      const totalReviews = monthlyReviews.length;
+      const detractors = monthlyReviews.filter(
+        (review) => review.nota >= 0 && review.nota <= 6
+      ).length;
+      const promoters = monthlyReviews.filter(
+        (review) => review.nota === 9 || review.nota === 10
+      ).length;
+
+      const nps =
+        totalReviews > 0
+          ? Math.round(((promoters - detractors) / totalReviews) * 100)
+          : 0;
+
+      return nps;
     });
 
     const responseCounts = months.map((month) => {
-      return filteredData
-        .filter((data) => data.month === month)
-        .reduce((acc, curr) => acc + curr.responses, 0);
+      return filteredData.filter((review) =>
+        format(new Date(review.dataCadastro), "yyyy-MM") === month
+      ).length;
     });
+
 
     const axisColor = theme === "dark" ? "#fff" : "#000";
 
@@ -206,7 +224,7 @@ export function useNpsTotalResponsesPerMonthChart({
       options: {
         ...initialChartOptions,
         xaxis: {
-          categories: months,
+          categories: months.reverse(),
           labels: {
             ...initialChartOptions.xaxis.labels,
             style: { ...initialChartOptions.xaxis.labels.style, colors: axisColor },
@@ -218,7 +236,7 @@ export function useNpsTotalResponsesPerMonthChart({
         },
       },
     });
-  }, [monthlyData, unitSelected, theme]);
+  }, [reviews, unitSelected, theme, initialChartOptions]);
 
   return { chartData };
 }

@@ -1,18 +1,22 @@
 import { useReviewContext } from "@/contexts/ReviewProvider/review-provider";
 import { api } from "@/services/api";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 export const useDashboardReviews = () => {
-    const { reviews, setReviews } = useReviewContext();
+    const { setReviews } = useReviewContext();
+    const [loading, setLoading] = useState(false)
 
     const getReviews = async () => {
         try {
+            setLoading(true)
             const response = await api.get("/reviews");
             return response.data;
         } catch (error) {
             toast.error(`Erro ao buscar avaliações: ${error}`);
             return [];
+        } finally {
+            setLoading(false)
         }
     };
 
@@ -26,6 +30,6 @@ export const useDashboardReviews = () => {
     }, [setReviews]);
 
     return {
-        reviews,
+        loading
     };
 };

@@ -5,10 +5,14 @@ import { useHeaderDashboardReviews } from "./HeaderDashboardReviews.hook";
 import { Filter } from "lucide-react";
 import { FilterDataModal } from "@/components/Modals/FilterDataModal";
 import { useState } from "react";
+import { format, parseISO } from "date-fns";
 
 export const HeaderDashboardReviews = () => {
     const [isOpenFilterData, setIsOpenFilterData] = useState(false)
-    const { reviews, unitSelected } = useReviewContext();
+    const { reviews, unitSelected, startDate, endDate } = useReviewContext();
+
+    const startDateFormatted = startDate ? format(parseISO(startDate), "dd/MM/yyyy") : '';
+    const endDateFormatted = endDate ? format(parseISO(endDate), "dd/MM/yyyy") : '';
 
     const {
         detratores,
@@ -25,11 +29,16 @@ export const HeaderDashboardReviews = () => {
 
     return (
         <header className="p-6">
-            <div className="flex justify-between">
-                <h1 className="text-xl sm:text-3xl font-bold uppercase">
+            <div className="flex justify-between flex-col sm:flex-row">
+                <h1 className="text-xl sm:text-3xl font-semibold uppercase">
                     Net Promoter Score <span className="capitalize">{unitSelected && `| Unidade ${unitSelected}`}</span>
                 </h1>
                 <div className="flex justify-center items-center gap-1.5">
+                    {startDate && endDate &&
+                        <p className="text-xs sm:text-base">
+                            Período selecionado: {startDateFormatted} a {endDateFormatted}
+                        </p>
+                    }
                     <SidebarTrigger />
                     <ModeToggle />
                     <Filter
@@ -69,4 +78,3 @@ export const HeaderDashboardReviews = () => {
         </header>
     );
 };
-

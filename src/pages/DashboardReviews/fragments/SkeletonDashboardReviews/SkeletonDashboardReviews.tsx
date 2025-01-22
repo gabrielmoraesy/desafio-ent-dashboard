@@ -1,23 +1,33 @@
-import { Skeleton } from "@/components/ui/skeleton"
-import { Fragment } from "react/jsx-runtime"
+import { Skeleton } from "@/components/ui/skeleton";
+import { Fragment } from "react/jsx-runtime";
 
 export const SkeletonDashboardReviews = () => {
     return (
         <Fragment>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mx-8 my-8">
-                {Array.from({ length: 6 }).map((_, index) => (
-                    <Skeleton key={index} className="min-h-[250px] rounded-2xl" />
-                ))}
-            </div>
+            <header className="p-6 w-[1500px] flex flex-col gap-4">
+                <div className="flex justify-between">
+                    <Skeleton className="w-[30%] h-8 rounded-lg" />
+                    <div className="flex justify-center items-center gap-1.5">
+                        {Array.from({ length: 3 }).map((_, index) => (
+                            <Skeleton key={index} className="w-10 h-10 rounded-lg" />
+                        ))}
+                    </div>
+                </div>
 
-            <h1 className="text-base font-bold mx-8">Filmes recomendados</h1>
+                <div className="flex gap-5">
+                    {Array.from({ length: 5 }).map((_, index) => (
+                        <Skeleton key={index} className="w-[20%] h-[96px] rounded-lg" />
+                    ))}
+                </div>
+            </header>
 
-            <div className="flex flex-wrap gap-2 mx-8 my-8">
-                {Array.from({ length: 6 }).map((_, index) => (
-                    <Skeleton key={index} className="p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-shadow min-h-[250px] w-full sm-custom:w-[196px]" />
-                ))}
-            </div>
+            <main className="p-6 pt-0 grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <Skeleton className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg col-span-1 lg:col-span-2" />
+                <Skeleton className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg overflow-auto min-h-[381px]" />
+                <Skeleton className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg col-span-1 lg:col-span-2" />
+                <Skeleton className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg overflow-auto min-h-[381px]" />
+                <Skeleton className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg col-span-1 lg:col-span-3 min-h-[500px]" />
+            </main>
         </Fragment>
-
-    )
-}
+    );
+};
