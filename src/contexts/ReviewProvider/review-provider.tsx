@@ -38,6 +38,7 @@ export const ReviewProvider = ({ children }: { children: ReactNode }) => {
 
     useEffect(() => {
         filterReviews()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [unitSelected])
 
     const resetReviews = () => {
@@ -48,6 +49,7 @@ export const ReviewProvider = ({ children }: { children: ReactNode }) => {
         if (reviews.length && initialReviews.length === 0) {
             setInitialReviews(reviews);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [reviews]);
 
     return (
