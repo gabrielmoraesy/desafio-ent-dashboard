@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { items } from "@/components/Sidebar/Sidebar"; // Importando os itens
+import { items } from "@/components/Sidebar/Sidebar";
 import { ModeToggle } from "@/components/ModeToggle/mode-toggle";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 

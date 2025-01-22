@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useTheme } from "@/contexts/ThemeProvider/theme-provider";
+import { IReview } from "@/interfaces/IReview";
 import { useEffect, useState } from "react";
 
 interface IChartOptions {
@@ -10,9 +11,6 @@ interface IChartOptions {
     stacked: boolean;
     toolbar: {
       show: boolean;
-    };
-    events: {
-      dataPointSelection: (event: any, chartContext: any, config: any) => void;
     };
   };
   dataLabels: {
@@ -77,17 +75,7 @@ interface ISeries {
   data: number[];
 }
 
-interface NpsUnitData {
-  unidade: string;
-  nps: string;
-}
-
-interface useNpsUnitChartProps {
-  npsUnitData: NpsUnitData[];
-  setUnitSelected: React.Dispatch<React.SetStateAction<string>>;
-}
-
-export function useNpsUnitChart({ npsUnitData, setUnitSelected }: useNpsUnitChartProps) {
+export function useNpsDayOfWeekChart(reviews: IReview[]) {
   const { theme } = useTheme();
 
   const initialChartOptions: IChartOptions = {
@@ -98,19 +86,7 @@ export function useNpsUnitChart({ npsUnitData, setUnitSelected }: useNpsUnitChar
       stacked: true,
       toolbar: {
         show: false,
-      },
-      events: {
-        dataPointSelection: function (
-          _event: any,
-          _chartContext: any,
-          config: any
-        ) {
-          const { dataPointIndex } = config;
-          const selectedUnit = config.w.config.xaxis.categories[dataPointIndex];
-
-          setUnitSelected(selectedUnit);
-        },
-      },
+      }
     },
     dataLabels: {
       enabled: true,
@@ -175,7 +151,7 @@ export function useNpsUnitChart({ npsUnitData, setUnitSelected }: useNpsUnitChar
     },
   };
 
-  const [NpsUnitChartData, setNpsUnitChartData] = useState<{
+  const [NpsDayOfWeekChartData, setNpsDayOfWeekChartData] = useState<{
     options: IChartOptions;
     series: ISeries[];
   }>({
@@ -185,54 +161,85 @@ export function useNpsUnitChart({ npsUnitData, setUnitSelected }: useNpsUnitChar
     ],
   });
 
-  useEffect(() => {
-    if (npsUnitData && npsUnitData.length > 0) {
-      const axisColor = theme === "dark" ? "#fff" : "#000";
+  const calculateNpsByDay = (reviews: IReview[]) => {
+    const daysOfWeek = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
+    const npsData: { [key: string]: { promoters: number; detractors: number; total: number } } = {};
 
-      setNpsUnitChartData((prev) => ({
-        ...prev,
-        series: [
-          {
-            name: "NPS",
-            data: npsUnitData.map((unit) => parseFloat(unit.nps) || 0),
-          },
-        ],
-        options: {
-          ...prev.options,
-          xaxis: {
-            ...prev.options.xaxis,
-            categories: npsUnitData.map((unit) => unit.unidade || "N/A"),
-            labels: {
-              ...prev.options.xaxis.labels,
-              style: {
-                colors: axisColor,
-                fontSize: "12px",
-              },
-            },
-          },
-          yaxis: {
-            ...prev.options.yaxis,
-            labels: {
-              ...prev.options.yaxis.labels,
-              style: {
-                colors: axisColor,
-                fontSize: "12px",
-              },
-            },
-          },
-          legend: {
-            ...prev.options.legend,
-            labels: {
+    daysOfWeek.forEach((day) => {
+      npsData[day] = { promoters: 0, detractors: 0, total: 0 };
+    });
+
+    reviews.forEach((review) => {
+      const reviewDate = new Date(review.dataCadastro);
+      const dayName = daysOfWeek[reviewDate.getDay()];
+
+      if (review.nota >= 9) {
+        npsData[dayName].promoters += 1;
+      } else if (review.nota >= 7) {
+        npsData[dayName].total += 1;
+      } else {
+        npsData[dayName].detractors += 1;
+      }
+
+      npsData[dayName].total += 1;
+    });
+
+    const npsByDay = daysOfWeek.map((day) => {
+      const { promoters, detractors, total } = npsData[day];
+      const nps = total > 0 ? ((promoters - detractors) / total) * 100 : 0;
+      return nps.toFixed(2);
+    });
+
+    return npsByDay;
+  };
+
+  useEffect(() => {
+    const npsByDayOfWeek = calculateNpsByDay(reviews);
+
+    const axisColor = theme === "dark" ? "#fff" : "#000";
+
+    setNpsDayOfWeekChartData((prev) => ({
+      ...prev,
+      series: [
+        {
+          name: "NPS",
+          data: npsByDayOfWeek.map((nps) => parseFloat(nps)),
+        },
+      ],
+      options: {
+        ...prev.options,
+        xaxis: {
+          ...prev.options.xaxis,
+          categories: ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"],
+          labels: {
+            ...prev.options.xaxis.labels,
+            style: {
               colors: axisColor,
+              fontSize: "12px",
             },
           },
         },
-      }));
-    }
-  }, [npsUnitData, theme]);
-
+        yaxis: {
+          ...prev.options.yaxis,
+          labels: {
+            ...prev.options.yaxis.labels,
+            style: {
+              colors: axisColor,
+              fontSize: "12px",
+            },
+          },
+        },
+        legend: {
+          ...prev.options.legend,
+          labels: {
+            colors: axisColor,
+          },
+        },
+      },
+    }));
+  }, [reviews, theme]);
 
   return {
-    NpsUnitChartData,
+    NpsDayOfWeekChartData,
   };
 }

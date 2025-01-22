@@ -16,7 +16,7 @@ export const SkeletonDashboardReviews = () => {
 
                 <div className="flex gap-5">
                     {Array.from({ length: 5 }).map((_, index) => (
-                        <Skeleton key={index} className="w-[20%] h-[96px] rounded-lg" />
+                        <Skeleton key={index} className="w-[20%] h-[96px] rounded-lg bg-gray-100 dark:bg-gray-800" />
                     ))}
                 </div>
             </header>

@@ -5,6 +5,9 @@ import { useMainDashboardReviews } from "./MainDashboardReviews.hook";
 import { NpsPorPracaTable } from "./fragments/NpsSquareTable";
 import { FeedbackTable } from "./fragments/FeedbackTable";
 import { NpsTotalResponsesPerMonthChart } from "./fragments/NpsTotalResponsesPerMonthChart";
+import { NpsDayOfWeekChart } from "./fragments/NpsDayOfWeekChart";
+import { NpsDayOfWeekAndShiftChart } from "./fragments/NpsDayOfWeekAndShiftChart";
+import { NpsDistributionChart } from "./fragments/NpsDistributionChart";
 
 export const MainDashboardReviews = () => {
     const { reviews } = useReviewContext();
@@ -16,6 +19,9 @@ export const MainDashboardReviews = () => {
             <NpsPorPracaTable />
             <NpsTotalResponsesPerMonthChart />
             <NpsBoardTable />
+            <NpsDayOfWeekChart />
+            <NpsDistributionChart />
+            <NpsDayOfWeekAndShiftChart />
             <FeedbackTable />
         </main>
     );

@@ -41,7 +41,7 @@ export function FilterDataModal({
   isOpen,
   setIsOpen,
 }: FilterDataModalProps) {
-  const { startDate, setStartDate, endDate, setEndDate, filterReviews, resetReviews } = useReviewContext();
+  const { startDate, setStartDate, endDate, setEndDate, filterReviewsByDate, resetReviews } = useReviewContext();
   const [errors, setErrors] = useState<string | null>(null);
 
   const hideFilterDataModal = useCallback(
@@ -66,7 +66,7 @@ export function FilterDataModal({
     }
 
     setErrors(null);
-    filterReviews();
+    filterReviewsByDate();
     hideFilterDataModal();
   };
 

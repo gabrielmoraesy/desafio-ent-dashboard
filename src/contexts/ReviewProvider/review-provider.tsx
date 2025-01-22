@@ -16,8 +16,8 @@ interface ReviewContextType {
     setStartDate: React.Dispatch<React.SetStateAction<string>>;
     endDate: string;
     setEndDate: React.Dispatch<React.SetStateAction<string>>;
-    filterReviews: () => void;
     resetReviews: () => void;
+    filterReviewsByDate: () => void
 }
 
 const ReviewContext = createContext<ReviewContextType | undefined>(undefined);
@@ -29,7 +29,7 @@ export const ReviewProvider = ({ children }: { children: ReactNode }) => {
     const [endDate, setEndDate] = useState<string>(new Date().toISOString().split("T")[0]);
     const [initialReviews, setInitialReviews] = useState<IReview[]>([]);
 
-    const filterReviews = () => {
+    const filterReviewsByDate = () => {
         const parsedStartDate = dateSchema.safeParse(startDate);
         const parsedEndDate = dateSchema.safeParse(endDate);
 
@@ -46,6 +46,16 @@ export const ReviewProvider = ({ children }: { children: ReactNode }) => {
         setReviews(filteredReviews);
     };
 
+    const filterByUnit = () => {
+        let filteredReviews = [...initialReviews];
+
+        if (unitSelected) {
+            filteredReviews = filteredReviews.filter(review => review.unidade === unitSelected);
+        }
+
+        setReviews(filteredReviews);
+    };
+
     const resetReviews = () => {
         setReviews(initialReviews);
     };
@@ -54,8 +64,11 @@ export const ReviewProvider = ({ children }: { children: ReactNode }) => {
         if (reviews.length && initialReviews.length === 0) {
             setInitialReviews(reviews);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [reviews]);
+
+    useEffect(() => {
+        filterByUnit();
+    }, [unitSelected]);
 
     return (
         <ReviewContext.Provider
@@ -68,7 +81,7 @@ export const ReviewProvider = ({ children }: { children: ReactNode }) => {
                 setStartDate,
                 endDate,
                 setEndDate,
-                filterReviews,
+                filterReviewsByDate,
                 resetReviews,
             }}
         >
