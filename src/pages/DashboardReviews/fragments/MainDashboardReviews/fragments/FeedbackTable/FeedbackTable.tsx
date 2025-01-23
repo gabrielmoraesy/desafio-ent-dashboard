@@ -1,4 +1,3 @@
-import { useReviews } from "@/api/reviews";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useFiltersContext } from "@/contexts/FiltersProvider/filters-provider";
@@ -7,7 +6,6 @@ import { useFeedbackTable } from "./FeedbackTable.hook";
 
 export const FeedbackTable = () => {
     const { unitSelected } = useFiltersContext();
-    const { data: reviews = [] } = useReviews();
 
     const {
         currentReviews,
@@ -17,7 +15,7 @@ export const FeedbackTable = () => {
         handleNextPage,
         handleJumpBack,
         handleJumpForward,
-    } = useFeedbackTable({ reviews });
+    } = useFeedbackTable();
 
     return (
         <div className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg col-span-1 xl:col-span-3">

@@ -1,13 +1,10 @@
+import { useReviews } from "@/api/reviews";
 import { useFiltersContext } from "@/contexts/FiltersProvider/filters-provider";
 import { useFilter } from "@/hooks/useFilter";
-import { IReview } from "@/interfaces/IReview";
 import { useEffect, useState } from "react";
 
-interface useFeedbackTableProps {
-    reviews: IReview[];
-}
-
-export function useFeedbackTable({ reviews }: useFeedbackTableProps) {
+export function useFeedbackTable() {
+    const { data: reviews = [] } = useReviews();
     const { unitSelected, startDate, endDate } = useFiltersContext();
 
     const { filteredReviews } = useFilter({

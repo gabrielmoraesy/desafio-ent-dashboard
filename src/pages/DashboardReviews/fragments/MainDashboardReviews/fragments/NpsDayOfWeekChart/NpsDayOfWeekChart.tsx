@@ -1,4 +1,3 @@
-import { useReviews } from "@/api/reviews";
 import Chart from "@/components/ui/chart";
 import { useFiltersContext } from "@/contexts/FiltersProvider/filters-provider";
 import { ApexOptions } from "apexcharts";
@@ -6,9 +5,8 @@ import { useNpsDayOfWeekChart } from "./NpsDayOfWeekChart.hook";
 
 export const NpsDayOfWeekChart = () => {
   const { unitSelected } = useFiltersContext();
-  const { data: reviews = [] } = useReviews();
 
-  const { NpsDayOfWeekChartData } = useNpsDayOfWeekChart(reviews);
+  const { NpsDayOfWeekChartData } = useNpsDayOfWeekChart();
 
   return (
     <div className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg col-span-1 xl:col-span-2">

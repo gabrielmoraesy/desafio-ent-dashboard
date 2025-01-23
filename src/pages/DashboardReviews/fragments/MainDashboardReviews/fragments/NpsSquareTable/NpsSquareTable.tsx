@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useReviews } from "@/api/reviews";
 import { Button } from "@/components/ui/button";
 import {
     Table,
@@ -14,7 +13,6 @@ import { useNpsSquareTable } from "./NpsSquareTable.hook";
 
 export const NpsPorPracaTable = () => {
     const { unitSelected } = useFiltersContext();
-    const { data: reviews = [] } = useReviews();
 
     const {
         npsSquareData,
@@ -22,7 +20,7 @@ export const NpsPorPracaTable = () => {
         currentPage,
         handlePreviousPage,
         handleNextPage,
-    } = useNpsSquareTable({ reviews });
+    } = useNpsSquareTable();
 
     return (
         <div className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg overflow-auto min-h-[381px]">

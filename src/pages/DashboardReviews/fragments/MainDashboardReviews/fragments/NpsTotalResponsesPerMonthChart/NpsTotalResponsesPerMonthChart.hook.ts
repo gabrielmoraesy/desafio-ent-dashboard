@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { useReviews } from "@/api/reviews";
 import { useFiltersContext } from "@/contexts/FiltersProvider/filters-provider";
 import { useTheme } from "@/contexts/ThemeProvider/theme-provider";
 import { useFilter } from "@/hooks/useFilter";
-import { IReview } from "@/interfaces/IReview";
 import { format, subMonths } from "date-fns";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 interface IChartOptions {
   colors: string[];
@@ -81,13 +81,9 @@ interface ISeries {
   data: number[];
 }
 
-interface useNpsTotalResponsesPerMonthChartProps {
-  reviews: IReview[];
-}
+export function useNpsTotalResponsesPerMonthChart() {
+  const { data: reviews = [] } = useReviews();
 
-export function useNpsTotalResponsesPerMonthChart({
-  reviews,
-}: useNpsTotalResponsesPerMonthChartProps) {
   const { theme } = useTheme();
 
   const initialChartOptions = useMemo<IChartOptions>(() => ({

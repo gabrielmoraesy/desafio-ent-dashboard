@@ -1,12 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect, useMemo, useState } from "react";
-import { IReview } from "@/interfaces/IReview";
+import { useReviews } from "@/api/reviews";
 import { useFiltersContext } from "@/contexts/FiltersProvider/filters-provider";
 import { useFilter } from "@/hooks/useFilter";
-
-interface useNpsSquareTableProps {
-    reviews: IReview[];
-}
+import { useEffect, useMemo, useState } from "react";
 
 interface NpsResult {
     praca: string;
@@ -17,9 +13,11 @@ interface NpsResult {
     rank: number;
 }
 
-export function useNpsSquareTable({ reviews }: useNpsSquareTableProps) {
+export function useNpsSquareTable() {
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
+
+    const { data: reviews = [] } = useReviews();
 
     const { unitSelected, startDate, endDate } = useFiltersContext();
 

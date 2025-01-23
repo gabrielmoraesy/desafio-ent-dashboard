@@ -1,19 +1,11 @@
+import { useReviews } from "@/api/reviews";
 import { useFiltersContext } from "@/contexts/FiltersProvider/filters-provider";
 import { useTheme } from "@/contexts/ThemeProvider/theme-provider";
 import { useFilter } from "@/hooks/useFilter";
 import { ApexOptions } from "apexcharts";
 import { useEffect, useState } from "react";
 
-interface IReview {
-  unidade: string;
-  nota: number;
-}
-
-interface useNpsDistributionChartProps {
-  reviews: IReview[];
-}
-
-export function useNpsDistributionChart({ reviews }: useNpsDistributionChartProps) {
+export function useNpsDistributionChart() {
   const { theme } = useTheme();
 
   const [chartData, setChartData] = useState<{
@@ -71,6 +63,7 @@ export function useNpsDistributionChart({ reviews }: useNpsDistributionChartProp
     labels: [],
   });
 
+  const { data: reviews = [] } = useReviews();
   const { unitSelected, startDate, endDate } = useFiltersContext();
 
   const { filteredReviews } = useFilter({

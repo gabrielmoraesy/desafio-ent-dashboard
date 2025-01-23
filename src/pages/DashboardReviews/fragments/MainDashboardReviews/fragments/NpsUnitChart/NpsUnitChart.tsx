@@ -4,16 +4,9 @@ import { ApexOptions } from "apexcharts";
 import { FilterX } from "lucide-react";
 import { useNpsUnitChart } from "./NpsUnitChart.hook";
 
-interface NpsUnitChartProps {
-  npsUnitData: {
-    unidade: string;
-    nps: string;
-  }[];
-}
-
-export const NpsUnitChart = ({ npsUnitData }: NpsUnitChartProps) => {
+export const NpsUnitChart = () => {
   const { setUnitSelected } = useFiltersContext();
-  const { NpsUnitChartData } = useNpsUnitChart({ npsUnitData });
+  const { NpsUnitChartData } = useNpsUnitChart();
 
   return (
     <div className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg col-span-1 xl:col-span-2">
