@@ -1,14 +1,14 @@
+import { useReviews } from "@/api/reviews";
 import { Fragment } from "react/jsx-runtime";
-import { useDashboardReviews } from "./DashboardReviews.hook";
 import { HeaderDashboardReviews } from "./fragments/HeaderDashboardReviews";
 import { MainDashboardReviews } from "./fragments/MainDashboardReviews";
 import { SkeletonDashboardReviews } from "./fragments/SkeletonDashboardReviews";
 
 export const DashboardReviews = () => {
-  const { loading } = useDashboardReviews()
+  const { isLoading } = useReviews()
 
-  if (loading) {
-    return <SkeletonDashboardReviews />
+  if (isLoading) {
+    return <SkeletonDashboardReviews />;
   }
 
   return (

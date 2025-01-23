@@ -1,19 +1,19 @@
-import { useCallback, useState } from "react";
 import { Button } from "@/components/ui/button";
 import * as Modal from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { useFiltersContext } from "@/contexts/FiltersProvider/filters-provider";
 import { useChangePopStateEvent } from "@/hooks/useChangePopStateEvent";
-import { z } from "zod";
-import { useReviewContext } from "@/contexts/ReviewProvider/review-provider";
 import { X } from "lucide-react";
+import { useCallback, useState } from "react";
+import { z } from "zod";
 
 const dateSchema = z.string().refine((value) => !isNaN(Date.parse(value)), {
   message: "Data inválida",
 });
 
 const periodSchema = z.object({
-  startDate: dateSchema,
-  endDate: dateSchema.refine(
+  beforeStartDate: dateSchema,
+  beforeEndDate: dateSchema.refine(
     (value: string) => {
       if (new Date(value) > new Date()) {
         return false;
@@ -25,7 +25,7 @@ const periodSchema = z.object({
     }
   ),
 }).refine(
-  (data) => new Date(data.startDate) <= new Date(data.endDate),
+  (data) => new Date(data.beforeStartDate) <= new Date(data.beforeEndDate),
   {
     message: "A data de início não pode ser posterior à data de fim.",
     path: ["startDate"],
@@ -41,7 +41,7 @@ export function FilterDataModal({
   isOpen,
   setIsOpen,
 }: FilterDataModalProps) {
-  const { startDate, setStartDate, endDate, setEndDate, resetReviews, filterReviews } = useReviewContext();
+  const { setStartDate, setEndDate, beforeStartDate, setBeforeStartDate, beforeEndDate, setBeforeEndDate } = useFiltersContext();
   const [errors, setErrors] = useState<string | null>(null);
 
   const hideFilterDataModal = useCallback(
@@ -56,24 +56,28 @@ export function FilterDataModal({
 
   const handleFilter = () => {
     const result = periodSchema.safeParse({
-      startDate,
-      endDate,
+      beforeStartDate,
+      beforeEndDate,
     });
 
     if (!result.success) {
-      setErrors(result.error.errors[0]?.message);
+      setErrors(result.error.errors[0].message);
       return;
     }
 
+    setStartDate(beforeStartDate)
+    setEndDate(beforeEndDate)
+
     setErrors(null);
-    filterReviews()
     hideFilterDataModal();
   };
 
   const cleanFilters = () => {
-    setStartDate("");
-    setEndDate(new Date().toISOString().split("T")[0]);
-    resetReviews();
+    setStartDate("")
+    setEndDate("")
+
+    setBeforeStartDate("");
+    setBeforeEndDate(new Date().toISOString().split("T")[0]);
   };
 
   return (
@@ -88,15 +92,15 @@ export function FilterDataModal({
             <Input
               type="date"
               className="border-2 border-[#2d6294]"
-              value={startDate}
-              onChange={(e) => setStartDate(e.target.value)}
+              value={beforeStartDate}
+              onChange={(e) => setBeforeStartDate(e.target.value)}
             />
             <p>a</p>
             <Input
               type="date"
               className="border-2 border-[#2d6294]"
-              value={endDate}
-              onChange={(e) => setEndDate(e.target.value)}
+              value={beforeEndDate}
+              onChange={(e) => setBeforeEndDate(e.target.value)}
             />
           </div>
           {errors && <p className="text-red-500 text-sm mt-2">{errors}</p>}
@@ -104,10 +108,10 @@ export function FilterDataModal({
 
         <div className="flex w-full flex-col gap-4">
           <Button onClick={handleFilter} className="bg-[#2d6294] dark:text-white dark:hover:bg-gray-800">Filtrar</Button>
-          {startDate && endDate &&
+          {beforeStartDate && beforeEndDate &&
             <Button onClick={cleanFilters} className="text-red-500 bg-transparent border border-red-500 hover:bg-red-500 hover:text-white ">
               <X className="hover:text-white" />
-              Limpar filtros
+              Limpar filtro
             </Button>}
         </div>
       </Modal.DialogContent>

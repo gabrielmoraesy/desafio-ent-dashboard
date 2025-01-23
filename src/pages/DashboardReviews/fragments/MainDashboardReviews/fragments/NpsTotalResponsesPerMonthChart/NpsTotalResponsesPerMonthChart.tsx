@@ -1,16 +1,18 @@
+import { useReviews } from "@/api/reviews";
 import Chart from "@/components/ui/chart";
-import { useReviewContext } from "@/contexts/ReviewProvider/review-provider";
+import { useFiltersContext } from "@/contexts/FiltersProvider/filters-provider";
 import { ApexOptions } from "apexcharts";
 import { useNpsTotalResponsesPerMonthChart } from "./NpsTotalResponsesPerMonthChart.hook";
 
 export const NpsTotalResponsesPerMonthChart = () => {
-  const { reviews, unitSelected } = useReviewContext();
+  const { unitSelected } = useFiltersContext();
+  const { data: reviews = [] } = useReviews();
   const { chartData } = useNpsTotalResponsesPerMonthChart({
     reviews
   });
 
   return (
-    <div className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg col-span-1 lg:col-span-2">
+    <div className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg col-span-1 xl:col-span-2">
       <h2 className="text-base sm:text-lg font-bold mb-4">
         NPS e Respostas por Mês {unitSelected && `| Unidade ${unitSelected}`}
       </h2>

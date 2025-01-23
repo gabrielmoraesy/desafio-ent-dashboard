@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { useFiltersContext } from "@/contexts/FiltersProvider/filters-provider";
 import { useTheme } from "@/contexts/ThemeProvider/theme-provider";
+import { useFilter } from "@/hooks/useFilter";
 import { IReview } from "@/interfaces/IReview";
 import { useEffect, useState } from "react";
 
@@ -177,7 +179,18 @@ export function useNpsDayOfWeekAndShiftChart(reviews: IReview[]) {
     ],
   });
 
-  const calculateNpsByDayAndShift = (reviews: IReview[]) => {
+  const { unitSelected, startDate, endDate } = useFiltersContext();
+
+  const { filteredReviews } = useFilter({
+    reviews,
+    filterOptions: {
+      unitSelected,
+      startDate,
+      endDate
+    }
+  })
+
+  const calculateNpsByDayAndShift = () => {
     const daysOfWeek = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
     const shifts = ["8:00-14:00", "14:00-18:00", "18:00-00:00"];
     const npsData: { [key: string]: { promoters: number; detractors: number; total: number } } = {};
@@ -188,7 +201,7 @@ export function useNpsDayOfWeekAndShiftChart(reviews: IReview[]) {
       });
     });
 
-    reviews.forEach((review) => {
+    filteredReviews.forEach((review) => {
       const reviewDate = new Date(review.dataCadastro);
       const dayName = daysOfWeek[reviewDate.getDay()];
       const hour = reviewDate.getHours();
@@ -229,7 +242,7 @@ export function useNpsDayOfWeekAndShiftChart(reviews: IReview[]) {
   };
 
   useEffect(() => {
-    const npsByDayAndShift = calculateNpsByDayAndShift(reviews);
+    const npsByDayAndShift = calculateNpsByDayAndShift();
 
     const axisColor = theme === "dark" ? "#fff" : "#000";
 
@@ -280,7 +293,8 @@ export function useNpsDayOfWeekAndShiftChart(reviews: IReview[]) {
         },
       },
     }));
-  }, [reviews, theme]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filteredReviews, theme]);
 
   return {
     NpsDayOfWeekAndShiftChartData,

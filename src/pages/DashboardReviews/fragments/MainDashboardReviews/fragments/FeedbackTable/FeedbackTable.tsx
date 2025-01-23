@@ -1,11 +1,13 @@
+import { useReviews } from "@/api/reviews";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { useFiltersContext } from "@/contexts/FiltersProvider/filters-provider";
 import { IReview } from "@/interfaces/IReview";
 import { useFeedbackTable } from "./FeedbackTable.hook";
-import { useReviewContext } from "@/contexts/ReviewProvider/review-provider";
 
 export const FeedbackTable = () => {
-    const { reviews, unitSelected } = useReviewContext();
+    const { unitSelected } = useFiltersContext();
+    const { data: reviews = [] } = useReviews();
 
     const {
         currentReviews,
@@ -15,10 +17,10 @@ export const FeedbackTable = () => {
         handleNextPage,
         handleJumpBack,
         handleJumpForward,
-    } = useFeedbackTable({ reviews, unitSelected });
+    } = useFeedbackTable({ reviews });
 
     return (
-        <div className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg col-span-1 lg:col-span-3">
+        <div className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg col-span-1 xl:col-span-3">
             <h2 className="text-base sm:text-lg font-bold mb-4">Feedbacks - Comentários do NPS {unitSelected && `| Unidade ${unitSelected}`}</h2>
             <div className="overflow-auto min-h-[500px]">
                 <Table className="min-w-[1500px] text-left">

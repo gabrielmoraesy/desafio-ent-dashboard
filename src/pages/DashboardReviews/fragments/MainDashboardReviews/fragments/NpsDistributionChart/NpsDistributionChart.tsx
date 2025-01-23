@@ -1,10 +1,12 @@
-import { ApexOptions } from "apexcharts";
-import { useReviewContext } from "@/contexts/ReviewProvider/review-provider";
+import { useReviews } from "@/api/reviews";
 import Chart from "@/components/ui/chart";
+import { useFiltersContext } from "@/contexts/FiltersProvider/filters-provider";
+import { ApexOptions } from "apexcharts";
 import { useNpsDistributionChart } from "./NpsDistributionChart.hook";
 
 export const NpsDistributionChart = () => {
-  const { reviews, unitSelected } = useReviewContext();
+  const { unitSelected } = useFiltersContext();
+  const { data: reviews = [] } = useReviews();
 
   const { chartData } = useNpsDistributionChart({ reviews });
 

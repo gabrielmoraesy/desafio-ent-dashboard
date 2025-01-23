@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { useFiltersContext } from "@/contexts/FiltersProvider/filters-provider";
 import { useTheme } from "@/contexts/ThemeProvider/theme-provider";
+import { useFilter } from "@/hooks/useFilter";
 import { IReview } from "@/interfaces/IReview";
 import { useEffect, useState } from "react";
 
@@ -161,6 +163,17 @@ export function useNpsDayOfWeekChart(reviews: IReview[]) {
     ],
   });
 
+  const { unitSelected, startDate, endDate } = useFiltersContext();
+
+  const { filteredReviews } = useFilter({
+    reviews,
+    filterOptions: {
+      unitSelected,
+      startDate,
+      endDate
+    }
+  })
+
   const calculateNpsByDay = (reviews: IReview[]) => {
     const daysOfWeek = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
     const npsData: { [key: string]: { promoters: number; detractors: number; total: number } } = {};
@@ -194,7 +207,7 @@ export function useNpsDayOfWeekChart(reviews: IReview[]) {
   };
 
   useEffect(() => {
-    const npsByDayOfWeek = calculateNpsByDay(reviews);
+    const npsByDayOfWeek = calculateNpsByDay(filteredReviews);
 
     const axisColor = theme === "dark" ? "#fff" : "#000";
 
@@ -237,7 +250,7 @@ export function useNpsDayOfWeekChart(reviews: IReview[]) {
         },
       },
     }));
-  }, [reviews, theme]);
+  }, [filteredReviews, theme]);
 
   return {
     NpsDayOfWeekChartData,

@@ -21,12 +21,12 @@ export const SkeletonDashboardReviews = () => {
                 </div>
             </header>
 
-            <main className="p-6 pt-0 grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <Skeleton className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg col-span-1 lg:col-span-2" />
+            <main className="p-6 pt-0 grid grid-cols-1 xl:grid-cols-3 gap-6">
+                <Skeleton className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg col-span-1 xl:col-span-2" />
                 <Skeleton className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg overflow-auto min-h-[381px]" />
-                <Skeleton className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg col-span-1 lg:col-span-2" />
+                <Skeleton className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg col-span-1 xl:col-span-2" />
                 <Skeleton className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg overflow-auto min-h-[381px]" />
-                <Skeleton className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg col-span-1 lg:col-span-3 min-h-[500px]" />
+                <Skeleton className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg col-span-1 xl:col-span-3 min-h-[500px]" />
             </main>
         </Fragment>
     );

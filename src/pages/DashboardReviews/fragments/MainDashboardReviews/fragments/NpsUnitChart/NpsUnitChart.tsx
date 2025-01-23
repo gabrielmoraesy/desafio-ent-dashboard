@@ -1,8 +1,8 @@
+import Chart from "@/components/ui/chart";
+import { useFiltersContext } from "@/contexts/FiltersProvider/filters-provider";
 import { ApexOptions } from "apexcharts";
-import Chart from "@/components/ui/chart"
-import { useNpsUnitChart } from "./NpsUnitChart.hook";
 import { FilterX } from "lucide-react";
-import { useReviewContext } from "@/contexts/ReviewProvider/review-provider";
+import { useNpsUnitChart } from "./NpsUnitChart.hook";
 
 interface NpsUnitChartProps {
   npsUnitData: {
@@ -12,12 +12,11 @@ interface NpsUnitChartProps {
 }
 
 export const NpsUnitChart = ({ npsUnitData }: NpsUnitChartProps) => {
-  const { setUnitSelected } = useReviewContext();
-
-  const { NpsUnitChartData } = useNpsUnitChart({ npsUnitData, setUnitSelected });
+  const { setUnitSelected } = useFiltersContext();
+  const { NpsUnitChartData } = useNpsUnitChart({ npsUnitData });
 
   return (
-    <div className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg col-span-1 lg:col-span-2">
+    <div className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg col-span-1 xl:col-span-2">
       <div className="flex justify-between">
         <h2 className="text-base sm:text-lg font-bold mb-4">NPS Por Unidade</h2>
         <FilterX onClick={() => setUnitSelected("")} />

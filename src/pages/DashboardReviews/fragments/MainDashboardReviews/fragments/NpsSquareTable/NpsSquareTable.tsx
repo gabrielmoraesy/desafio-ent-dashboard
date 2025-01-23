@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { useReviews } from "@/api/reviews";
 import { Button } from "@/components/ui/button";
 import {
     Table,
@@ -8,11 +9,12 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { useReviewContext } from "@/contexts/ReviewProvider/review-provider";
+import { useFiltersContext } from "@/contexts/FiltersProvider/filters-provider";
 import { useNpsSquareTable } from "./NpsSquareTable.hook";
 
 export const NpsPorPracaTable = () => {
-    const { reviews, unitSelected } = useReviewContext();
+    const { unitSelected } = useFiltersContext();
+    const { data: reviews = [] } = useReviews();
 
     const {
         npsSquareData,
@@ -20,7 +22,7 @@ export const NpsPorPracaTable = () => {
         currentPage,
         handlePreviousPage,
         handleNextPage,
-    } = useNpsSquareTable({ reviews, unitSelected });
+    } = useNpsSquareTable({ reviews });
 
     return (
         <div className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg overflow-auto min-h-[381px]">

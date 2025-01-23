@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useMemo, useState } from "react";
 import { IReview } from "@/interfaces/IReview";
+import { useFiltersContext } from "@/contexts/FiltersProvider/filters-provider";
+import { useFilter } from "@/hooks/useFilter";
 
 interface useNpsTableByTableProps {
     reviews: IReview[];
-    unitSelected: string;
 }
 
 interface NpsResult {
@@ -18,10 +19,20 @@ interface NpsResult {
 
 export function useNpsBoardTable({
     reviews,
-    unitSelected,
 }: useNpsTableByTableProps) {
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
+
+    const { unitSelected, startDate, endDate } = useFiltersContext();
+
+    const { filteredReviews } = useFilter({
+        reviews,
+        filterOptions: {
+            unitSelected,
+            startDate,
+            endDate
+        }
+    })
 
     const calculateNps = (promoters: number, detractors: number, total: number) => {
         if (total === 0) return 0;
@@ -31,7 +42,7 @@ export function useNpsBoardTable({
     };
 
     const npsTableData = useMemo(() => {
-        const groupedByMesa = reviews.reduce((acc: any, review) => {
+        const groupedByMesa = filteredReviews.reduce((acc: any, review) => {
             const mesa = review.mesa;
             const nota = review.nota;
             const status = review.statusNPS;
@@ -89,7 +100,7 @@ export function useNpsBoardTable({
             totalPages,
             currentPage,
         };
-    }, [reviews, currentPage, unitSelected]);
+    }, [filteredReviews, currentPage]);
 
     const handlePreviousPage = () => {
         if (currentPage > 1) {

@@ -11,6 +11,7 @@ import {
     SidebarMenuItem,
 } from "@/components/ui/sidebar"
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const items = [
     {
         title: "Início",

@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useMemo, useState } from "react";
 import { IReview } from "@/interfaces/IReview";
+import { useFiltersContext } from "@/contexts/FiltersProvider/filters-provider";
+import { useFilter } from "@/hooks/useFilter";
 
 interface useNpsSquareTableProps {
     reviews: IReview[];
-    unitSelected: string;
 }
 
 interface NpsResult {
@@ -16,9 +17,20 @@ interface NpsResult {
     rank: number;
 }
 
-export function useNpsSquareTable({ reviews, unitSelected }: useNpsSquareTableProps) {
+export function useNpsSquareTable({ reviews }: useNpsSquareTableProps) {
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
+
+    const { unitSelected, startDate, endDate } = useFiltersContext();
+
+    const { filteredReviews } = useFilter({
+        reviews,
+        filterOptions: {
+            unitSelected,
+            startDate,
+            endDate
+        }
+    })
 
     const calculateNps = (promoters: number, detractors: number, total: number) => {
         if (total === 0) return 0;
@@ -28,7 +40,7 @@ export function useNpsSquareTable({ reviews, unitSelected }: useNpsSquareTablePr
     };
 
     const npsSquareData = useMemo(() => {
-        const groupedByPraca = reviews.reduce((acc: any, review) => {
+        const groupedByPraca = filteredReviews.reduce((acc: any, review) => {
             const praca = review.praca;
             const nota = review.nota;
             const status = review.statusNPS;
@@ -86,7 +98,7 @@ export function useNpsSquareTable({ reviews, unitSelected }: useNpsSquareTablePr
             totalPages,
             currentPage,
         };
-    }, [reviews, currentPage, unitSelected]);
+    }, [filteredReviews, currentPage]);
 
     const handlePreviousPage = () => {
         if (currentPage > 1) {

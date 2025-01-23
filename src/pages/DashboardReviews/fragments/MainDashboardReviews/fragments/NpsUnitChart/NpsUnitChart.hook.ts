@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { useFiltersContext } from "@/contexts/FiltersProvider/filters-provider";
 import { useTheme } from "@/contexts/ThemeProvider/theme-provider";
 import { useEffect, useState } from "react";
 
@@ -84,11 +85,11 @@ interface NpsUnitData {
 
 interface useNpsUnitChartProps {
   npsUnitData: NpsUnitData[];
-  setUnitSelected: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export function useNpsUnitChart({ npsUnitData, setUnitSelected }: useNpsUnitChartProps) {
+export function useNpsUnitChart({ npsUnitData }: useNpsUnitChartProps) {
   const { theme } = useTheme();
+  const { setUnitSelected } = useFiltersContext();
 
   const initialChartOptions: IChartOptions = {
     colors: ["#3C83C4", "#FFBD33", "#33FF57", "#1f1f1f"],

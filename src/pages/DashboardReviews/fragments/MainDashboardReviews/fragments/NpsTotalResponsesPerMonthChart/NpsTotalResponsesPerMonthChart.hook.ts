@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { useFiltersContext } from "@/contexts/FiltersProvider/filters-provider";
 import { useTheme } from "@/contexts/ThemeProvider/theme-provider";
+import { useFilter } from "@/hooks/useFilter";
 import { IReview } from "@/interfaces/IReview";
 import { format, subMonths } from "date-fns";
 import { useEffect, useState, useMemo } from "react";
@@ -172,6 +174,17 @@ export function useNpsTotalResponsesPerMonthChart({
     series: [],
   });
 
+  const { unitSelected, startDate, endDate } = useFiltersContext();
+
+  const { filteredReviews } = useFilter({
+    reviews,
+    filterOptions: {
+      unitSelected,
+      startDate,
+      endDate
+    }
+  })
+
   useEffect(() => {
     const currentDate = new Date();
     const months = Array.from({ length: 12 }).map((_, index) => {
@@ -180,7 +193,7 @@ export function useNpsTotalResponsesPerMonthChart({
     });
 
     const npsData = months.map((month) => {
-      const monthlyReviews = reviews.filter((review) =>
+      const monthlyReviews = filteredReviews.filter((review) =>
         format(new Date(review.dataCadastro), "yyyy-MM") === month
       );
 
@@ -202,11 +215,10 @@ export function useNpsTotalResponsesPerMonthChart({
     });
 
     const responseCounts = months.map((month) => {
-      return reviews.filter((review) =>
+      return filteredReviews.filter((review) =>
         format(new Date(review.dataCadastro), "yyyy-MM") === month
       ).length;
     });
-
 
     const axisColor = theme === "dark" ? "#fff" : "#000";
 
@@ -230,7 +242,7 @@ export function useNpsTotalResponsesPerMonthChart({
         },
       },
     });
-  }, [reviews, theme, initialChartOptions]);
+  }, [filteredReviews, theme, initialChartOptions, reviews]);
 
   return { chartData };
 }

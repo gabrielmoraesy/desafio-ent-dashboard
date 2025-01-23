@@ -1,4 +1,6 @@
+import { useFiltersContext } from "@/contexts/FiltersProvider/filters-provider";
 import { useTheme } from "@/contexts/ThemeProvider/theme-provider";
+import { useFilter } from "@/hooks/useFilter";
 import { ApexOptions } from "apexcharts";
 import { useEffect, useState } from "react";
 
@@ -33,6 +35,23 @@ export function useNpsDistributionChart({ reviews }: useNpsDistributionChartProp
             },
             legend: {
               position: "bottom",
+              labels: {
+                colors: theme === "dark" ? "#ffffff" : "#000000",
+              },
+            },
+          },
+        },
+        {
+          breakpoint: 1280,
+          options: {
+            chart: {
+              width: 380,
+            },
+            legend: {
+              position: "right",
+              labels: {
+                colors: theme === "dark" ? "#ffffff" : "#000000",
+              },
             },
           },
         },
@@ -52,10 +71,21 @@ export function useNpsDistributionChart({ reviews }: useNpsDistributionChartProp
     labels: [],
   });
 
+  const { unitSelected, startDate, endDate } = useFiltersContext();
+
+  const { filteredReviews } = useFilter({
+    reviews,
+    filterOptions: {
+      unitSelected,
+      startDate,
+      endDate
+    }
+  })
+
   useEffect(() => {
     const ratingCounts = Array(11).fill(0);
 
-    reviews.forEach((review) => {
+    filteredReviews.forEach((review) => {
       const rating = Math.round(review.nota);
       ratingCounts[rating] += 1;
     });
@@ -78,7 +108,8 @@ export function useNpsDistributionChart({ reviews }: useNpsDistributionChartProp
         },
       },
     });
-  }, [reviews, theme]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filteredReviews, theme]);
 
   return { chartData };
 }

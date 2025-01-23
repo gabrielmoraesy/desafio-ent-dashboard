@@ -1,19 +1,30 @@
+import { useFiltersContext } from "@/contexts/FiltersProvider/filters-provider";
+import { useFilter } from "@/hooks/useFilter";
 import { IReview } from "@/interfaces/IReview";
 import { useEffect, useState } from "react";
 
 interface useFeedbackTableProps {
     reviews: IReview[];
-    unitSelected: string;
 }
 
-export function useFeedbackTable({ reviews, unitSelected }: useFeedbackTableProps) {
+export function useFeedbackTable({ reviews }: useFeedbackTableProps) {
+    const { unitSelected, startDate, endDate } = useFiltersContext();
+
+    const { filteredReviews } = useFilter({
+        reviews,
+        filterOptions: {
+            unitSelected,
+            startDate,
+            endDate
+        }
+    })
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
 
-    const totalPages = Math.ceil(reviews.length / itemsPerPage);
+    const totalPages = Math.ceil(filteredReviews.length / itemsPerPage);
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    const currentReviews = reviews.slice(startIndex, endIndex);
+    const currentReviews = filteredReviews.slice(startIndex, endIndex);
 
     const handlePreviousPage = () => {
         if (currentPage > 1) {
