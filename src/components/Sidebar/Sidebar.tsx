@@ -46,7 +46,7 @@ export const AppSidebar = () => {
                             {items.map((item) => (
                                 <SidebarMenuItem key={item.title}>
                                     <SidebarMenuButton asChild>
-                                        <a href={item.url}>
+                                        <a onClick={() => window.location.href = item.url}>
                                             <item.icon />
                                             <span>{item.title}</span>
                                         </a>
