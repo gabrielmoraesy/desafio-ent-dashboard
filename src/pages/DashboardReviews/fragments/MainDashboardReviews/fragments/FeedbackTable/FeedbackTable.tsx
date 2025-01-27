@@ -18,10 +18,10 @@ const FeedbackTable = () => {
     } = useFeedbackTable();
 
     return (
-        <div className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg col-span-1 xl:col-span-3">
-            <h2 className="text-base sm:text-lg font-bold mb-4">Feedbacks - Comentários do NPS {unitSelected && `| Unidade ${unitSelected}`}</h2>
-            <div className="overflow-auto min-h-[500px]">
-                <Table className="min-w-[1500px] text-left">
+        <div className="flex flex-col justify-between bg-gray-100 dark:bg-gray-800 p-6 rounded-lg col-span-1 xl:col-span-3 min-h-[800px]">
+            <div>
+                <h2 className="text-base sm:text-lg font-bold mb-4">Feedbacks - Comentários do NPS {unitSelected && `| Unidade ${unitSelected}`}</h2>
+                <Table className="min-w-[1500px] text-left text-xs sm:text-sm overflow-auto min-h-[500px]">
                     <TableHeader>
                         <TableRow className="bg-gray-200 dark:bg-gray-700">
                             <TableHead className="p-2">Nota</TableHead>
@@ -56,29 +56,33 @@ const FeedbackTable = () => {
                     </TableBody>
                 </Table>
             </div>
-            <div className="flex items-center justify-between mt-4 max-[920px]:flex-col max-[920px]:gap-2">
-                <div className="flex gap-2">
-                    <Button variant="outline" onClick={handleJumpBack} disabled={currentPage === 1} className="text-[10px] sm:text-sm"
-                    >
-                        {"<< Voltar 10"}
-                    </Button>
-                    <Button variant="outline" onClick={handlePreviousPage} disabled={currentPage === 1} className="text-[10px] sm:text-sm">
-                        {"< Anterior"}
-                    </Button>
+
+            {
+                totalPages > 1 &&
+                <div className="flex items-center justify-between mt-4 max-[920px]:flex-col max-[920px]:gap-2">
+                    <div className="flex gap-2">
+                        <Button variant="outline" onClick={handleJumpBack} disabled={currentPage === 1} className="text-[10px] sm:text-sm"
+                        >
+                            {"<< Voltar 10"}
+                        </Button>
+                        <Button variant="outline" onClick={handlePreviousPage} disabled={currentPage === 1} className="text-[10px] sm:text-sm">
+                            {"< Anterior"}
+                        </Button>
+                    </div>
+                    <span className="text-sm">
+                        Página {currentPage} de {totalPages}
+                    </span>
+                    <div className="flex gap-2">
+                        <Button variant="outline" onClick={handleNextPage} disabled={currentPage === totalPages} className="text-[10px] sm:text-sm">
+                            {"Próxima >"}
+                        </Button>
+                        <Button variant="outline" onClick={handleJumpForward} disabled={currentPage === totalPages} className="text-[10px] sm:text-sm">
+                            {"Avançar 10 >>"}
+                        </Button>
+                    </div>
                 </div>
-                <span className="text-sm">
-                    Página {currentPage} de {totalPages}
-                </span>
-                <div className="flex gap-2">
-                    <Button variant="outline" onClick={handleNextPage} disabled={currentPage === totalPages} className="text-[10px] sm:text-sm">
-                        {"Próxima >"}
-                    </Button>
-                    <Button variant="outline" onClick={handleJumpForward} disabled={currentPage === totalPages} className="text-[10px] sm:text-sm">
-                        {"Avançar 10 >>"}
-                    </Button>
-                </div>
-            </div>
-        </div>
+            }
+        </div >
     );
 };
 

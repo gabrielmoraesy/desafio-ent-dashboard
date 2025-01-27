@@ -23,28 +23,31 @@ export const NpsBoardTable = () => {
     } = useNpsBoardTable();
 
     return (
-        <div className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg overflow-auto min-h-[381px]">
-            <h2 className="text-base sm:text-lg font-bold mb-4">
-                NPS Por Mesa {unitSelected && `| Unidade ${unitSelected}`}
-            </h2>
-            <Table className="min-w-full text-left">
-                <TableHeader>
-                    <TableRow className="bg-gray-200 dark:bg-gray-700">
-                        <TableHead className="p-2">Rank</TableHead>
-                        <TableHead className="p-2">Mesa</TableHead>
-                        <TableHead className="p-2">NPS</TableHead>
-                    </TableRow>
-                </TableHeader>
-                <TableBody>
-                    {npsTableData.map((data: any, index: number) => (
-                        <TableRow key={index} className="border-b border-gray-700">
-                            <TableCell className="p-2">{data.rank}</TableCell>
-                            <TableCell className="p-2">{data.mesa}</TableCell>
-                            <TableCell className="p-2">{data.nps.toFixed(2)}</TableCell>
+        <div className="flex flex-col justify-between bg-gray-100 dark:bg-gray-800 p-6 rounded-lg overflow-auto min-h-[381px]">
+            <div>
+                <h2 className="text-base sm:text-lg font-bold mb-4">
+                    NPS Por Mesa {unitSelected && `| Unidade ${unitSelected}`}
+                </h2>
+                <Table className="min-w-full text-left text-xs sm:text-sm">
+                    <TableHeader>
+                        <TableRow className="bg-gray-200 dark:bg-gray-700">
+                            <TableHead className="p-2">Rank</TableHead>
+                            <TableHead className="p-2">Mesa</TableHead>
+                            <TableHead className="p-2">NPS</TableHead>
                         </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
+                    </TableHeader>
+                    <TableBody>
+                        {npsTableData.map((data: any, index: number) => (
+                            <TableRow key={index} className="border-b border-gray-700">
+                                <TableCell className="p-2">{data.rank}</TableCell>
+                                <TableCell className="p-2">{data.mesa}</TableCell>
+                                <TableCell className="p-2">{data.nps.toFixed(2)}</TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </div>
+
 
             {totalPages > 1 && (
                 <div className="flex items-center justify-between mt-4 gap-2 sm:gap-0">
