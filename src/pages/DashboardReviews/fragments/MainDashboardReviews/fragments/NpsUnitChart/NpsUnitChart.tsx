@@ -11,7 +11,7 @@ export const NpsUnitChart = () => {
   return (
     <div className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg col-span-1 xl:col-span-2">
       <div className="flex justify-between">
-        <h2 className="text-base sm:text-lg font-bold mb-4">NPS Por Unidade </h2>
+        <h2 className="text-base sm:text-lg font-bold mb-4">NPS Por Unidade</h2>
         {unitSelected && <FilterX onClick={() => setUnitSelected("")} />}
       </div>
       <Chart
