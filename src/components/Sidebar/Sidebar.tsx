@@ -20,17 +20,17 @@ export const items = [
     },
     {
         title: "Dashboard | Avaliações NPS",
-        url: "/dashboard-reviews",
+        url: "dashboard-reviews",
         icon: Star,
     },
     {
         title: "Dashboard | Finanças",
-        url: "/dashboard-finances",
+        url: "dashboard-finances",
         icon: CircleDollarSign,
     },
     {
         title: "Sobre o projeto",
-        url: "/about",
+        url: "about",
         icon: CircleHelp,
     },
 ]
