@@ -30,10 +30,10 @@ export const HeaderDashboardReviews = () => {
     return (
         <header className="p-6">
             <div className="flex justify-between flex-col sm:flex-row">
-                <h1 className="text-xl sm:text-3xl font-semibold uppercase">
+                <h1 className="text-xl sm:text-3xl font-semibold uppercase text-center sm:text-left">
                     Net Promoter Score <span className="capitalize">{unitSelected && `| Unidade ${unitSelected}`}</span>
                 </h1>
-                <div className="flex justify-center items-center gap-1.5">
+                <div className="flex justify-center items-center gap-1.5 mt-2">
                     {startDate && endDate &&
                         <p className="text-xs sm:text-base">
                             Período selecionado: {startDateFormatted} a {endDateFormatted}
@@ -47,7 +47,7 @@ export const HeaderDashboardReviews = () => {
                     />
                 </div>
             </div>
-            <div className="flex max-[1200px]:flex-col max-[750px]:flex-wrap max-[750px]:justify-center max-[750px]:gap-2 mt-4 gap-3">
+            <div className="flex max-[1200px]:flex-col max-[750px]:flex-wrap max-[750px]:justify-center max-[750px]:gap-2 mt-2 sm:mt-4 gap-3">
                 <div className="bg-green-500 p-4 rounded-lg text-center w-1/4 max-[1200px]:w-full">
                     <p className="text-xl sm:text-3xl font-bold">{nps}</p>
                     <p className="text-lg sm:text-xl">NPS</p>
