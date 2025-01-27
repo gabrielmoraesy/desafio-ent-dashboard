@@ -2,11 +2,16 @@ import Chart from "@/components/ui/chart";
 import { useFiltersContext } from "@/contexts/FiltersProvider/filters-provider";
 import { ApexOptions } from "apexcharts";
 import { useNpsDistributionChart } from "./NpsDistributionChart.hook";
+import { IReview } from "@/interfaces/IReview";
 
-export const NpsDistributionChart = () => {
+interface NpsDistributionChartProps {
+  filteredReviews: IReview[];
+}
+
+const NpsDistributionChart = (filteredReviews: NpsDistributionChartProps) => {
   const { unitSelected } = useFiltersContext();
 
-  const { chartData } = useNpsDistributionChart();
+  const { chartData } = useNpsDistributionChart(filteredReviews);
 
   return (
     <div className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg col-span-1">
@@ -21,3 +26,5 @@ export const NpsDistributionChart = () => {
     </div>
   );
 };
+
+export default NpsDistributionChart

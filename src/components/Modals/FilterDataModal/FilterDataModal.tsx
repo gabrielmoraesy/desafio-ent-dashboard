@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { useFiltersContext } from "@/contexts/FiltersProvider/filters-provider";
 import { useChangePopStateEvent } from "@/hooks/useChangePopStateEvent";
 import { X } from "lucide-react";
-import { useCallback, useState } from "react";
+import { useCallback, useState, useTransition } from "react";
 import { z } from "zod";
 
 const dateSchema = z.string().refine((value) => !isNaN(Date.parse(value)), {
@@ -43,6 +43,8 @@ export function FilterDataModal({
 }: FilterDataModalProps) {
   const { setStartDate, setEndDate, beforeStartDate, setBeforeStartDate, beforeEndDate, setBeforeEndDate } = useFiltersContext();
   const [errors, setErrors] = useState<string | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_, startTransition] = useTransition()
 
   const hideFilterDataModal = useCallback(
     () => setIsOpen && setIsOpen(false),
@@ -55,21 +57,23 @@ export function FilterDataModal({
   });
 
   const handleFilter = () => {
-    const result = periodSchema.safeParse({
-      beforeStartDate,
-      beforeEndDate,
-    });
+    startTransition(() => {
+      const result = periodSchema.safeParse({
+        beforeStartDate,
+        beforeEndDate,
+      });
 
-    if (!result.success) {
-      setErrors(result.error.errors[0].message);
-      return;
-    }
+      if (!result.success) {
+        setErrors(result.error.errors[0].message);
+        return;
+      }
 
-    setStartDate(beforeStartDate)
-    setEndDate(beforeEndDate)
+      setStartDate(beforeStartDate)
+      setEndDate(beforeEndDate)
 
-    setErrors(null);
-    hideFilterDataModal();
+      setErrors(null);
+      hideFilterDataModal();
+    })
   };
 
   const cleanFilters = () => {

@@ -1,10 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useReviews } from "@/api/reviews";
 import { useFiltersContext } from "@/contexts/FiltersProvider/filters-provider";
-import { useFilter } from "@/hooks/useFilter";
-import { IReview } from "@/interfaces/IReview";
-import { useMemo, useEffect, useState } from "react";
 import { useTheme } from "@/contexts/ThemeProvider/theme-provider";
+import { IReview } from "@/interfaces/IReview";
+import { useEffect, useMemo, useState } from "react";
 
 interface IChartOptions {
   colors: string[];
@@ -81,20 +79,9 @@ interface ISeries {
   data: number[];
 }
 
-export function useNpsUnitChart() {
-  const { unitSelected, startDate, endDate, setUnitSelected } = useFiltersContext();
+export function useNpsUnitChart(filteredReviews: IReview[]) {
+  const { setUnitSelected } = useFiltersContext();
   const { theme } = useTheme();
-
-  const { data: reviews = [] } = useReviews();
-
-  const { filteredReviews } = useFilter({
-    reviews,
-    filterOptions: {
-      unitSelected,
-      startDate,
-      endDate
-    }
-  });
 
   const reviewsByUnit = useMemo(() => {
     return filteredReviews.reduce((acc, review) => {

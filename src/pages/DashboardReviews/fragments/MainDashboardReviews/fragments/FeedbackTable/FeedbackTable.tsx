@@ -4,7 +4,11 @@ import { useFiltersContext } from "@/contexts/FiltersProvider/filters-provider";
 import { IReview } from "@/interfaces/IReview";
 import { useFeedbackTable } from "./FeedbackTable.hook";
 
-export const FeedbackTable = () => {
+interface FeedbackTableProps {
+    filteredReviews: IReview[];
+}
+
+const FeedbackTable = ({ filteredReviews }: FeedbackTableProps) => {
     const { unitSelected } = useFiltersContext();
 
     const {
@@ -15,7 +19,7 @@ export const FeedbackTable = () => {
         handleNextPage,
         handleJumpBack,
         handleJumpForward,
-    } = useFeedbackTable();
+    } = useFeedbackTable(filteredReviews);
 
     return (
         <div className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg col-span-1 xl:col-span-3">
@@ -81,4 +85,6 @@ export const FeedbackTable = () => {
         </div>
     );
 };
+
+export default FeedbackTable
 

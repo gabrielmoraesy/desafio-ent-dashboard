@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useReviews } from "@/api/reviews";
-import { useFiltersContext } from "@/contexts/FiltersProvider/filters-provider";
 import { useTheme } from "@/contexts/ThemeProvider/theme-provider";
-import { useFilter } from "@/hooks/useFilter";
+import { IReview } from "@/interfaces/IReview";
 import { useEffect, useState } from "react";
 
 interface IChartOptions {
@@ -85,7 +83,11 @@ interface ISeries {
   data: number[];
 }
 
-export function useNpsDayOfWeekAndShiftChart() {
+interface useNpsDayOfWeekAndShiftChartProps {
+  filteredReviews: IReview[]
+}
+
+export function useNpsDayOfWeekAndShiftChart({ filteredReviews }: useNpsDayOfWeekAndShiftChartProps) {
   const { theme } = useTheme();
 
   const initialChartOptions: IChartOptions = {
@@ -178,18 +180,6 @@ export function useNpsDayOfWeekAndShiftChart() {
       { name: "NPS", data: [] },
     ],
   });
-
-  const { data: reviews = [] } = useReviews();
-  const { unitSelected, startDate, endDate } = useFiltersContext();
-
-  const { filteredReviews } = useFilter({
-    reviews,
-    filterOptions: {
-      unitSelected,
-      startDate,
-      endDate
-    }
-  })
 
   const calculateNpsByDayAndShift = () => {
     const daysOfWeek = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];

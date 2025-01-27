@@ -1,17 +1,20 @@
-import { useReviews } from "@/api/reviews";
 import { FilterDataModal } from "@/components/Modals/FilterDataModal";
 import { ModeToggle } from "@/components/ModeToggle/mode-toggle";
 import { SidebarTrigger } from "@/components/ui/sidebar";
+import { useFiltersContext } from "@/contexts/FiltersProvider/filters-provider";
+import { IReview } from "@/interfaces/IReview";
 import { format, parseISO } from "date-fns";
 import { Filter } from "lucide-react";
 import { useState } from "react";
 import { useHeaderDashboardReviews } from "./HeaderDashboardReviews.hook";
-import { useFiltersContext } from "@/contexts/FiltersProvider/filters-provider";
 
-export const HeaderDashboardReviews = () => {
+interface HeaderDashboardReviewsProps {
+    filteredReviews: IReview[];
+}
+
+export const HeaderDashboardReviews = ({ filteredReviews }: HeaderDashboardReviewsProps) => {
     const [isOpenFilterData, setIsOpenFilterData] = useState(false)
     const { unitSelected, startDate, endDate } = useFiltersContext();
-    const { data: reviews = [] } = useReviews();
 
     const startDateFormatted = startDate ? format(parseISO(startDate), "dd/MM/yyyy") : '';
     const endDateFormatted = endDate ? format(parseISO(endDate), "dd/MM/yyyy") : '';
@@ -25,7 +28,7 @@ export const HeaderDashboardReviews = () => {
         neutrosPercentage,
         promotoresPercentage,
         nps
-    } = useHeaderDashboardReviews(reviews);
+    } = useHeaderDashboardReviews(filteredReviews);
 
     const stylesCard = 'bg-gray-100 dark:bg-gray-800 flex flex-col justify-between rounded-lg text-center w-1/4 max-[1200px]:w-full';
 

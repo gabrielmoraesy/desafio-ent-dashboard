@@ -1,20 +1,10 @@
-import { useReviews } from "@/api/reviews";
 import { useFiltersContext } from "@/contexts/FiltersProvider/filters-provider";
-import { useFilter } from "@/hooks/useFilter";
+import { IReview } from "@/interfaces/IReview";
 import { useEffect, useState } from "react";
 
-export function useFeedbackTable() {
-    const { data: reviews = [] } = useReviews();
-    const { unitSelected, startDate, endDate } = useFiltersContext();
+export function useFeedbackTable(filteredReviews: IReview[]) {
+    const { unitSelected } = useFiltersContext();
 
-    const { filteredReviews } = useFilter({
-        reviews,
-        filterOptions: {
-            unitSelected,
-            startDate,
-            endDate
-        }
-    })
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
 

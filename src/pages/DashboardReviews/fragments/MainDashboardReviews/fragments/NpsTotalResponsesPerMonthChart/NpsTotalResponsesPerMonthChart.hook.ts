@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useReviews } from "@/api/reviews";
-import { useFiltersContext } from "@/contexts/FiltersProvider/filters-provider";
 import { useTheme } from "@/contexts/ThemeProvider/theme-provider";
-import { useFilter } from "@/hooks/useFilter";
+import { IReview } from "@/interfaces/IReview";
 import { format, subMonths } from "date-fns";
 import { useEffect, useMemo, useState } from "react";
 
@@ -81,9 +79,11 @@ interface ISeries {
   data: number[];
 }
 
-export function useNpsTotalResponsesPerMonthChart() {
-  const { data: reviews = [] } = useReviews();
+interface useNpsTotalResponsesPerMonthChartProps {
+  filteredReviews: IReview[]
+}
 
+export function useNpsTotalResponsesPerMonthChart({ filteredReviews }: useNpsTotalResponsesPerMonthChartProps) {
   const { theme } = useTheme();
 
   const initialChartOptions = useMemo<IChartOptions>(() => ({
@@ -170,17 +170,6 @@ export function useNpsTotalResponsesPerMonthChart() {
     series: [],
   });
 
-  const { unitSelected, startDate, endDate } = useFiltersContext();
-
-  const { filteredReviews } = useFilter({
-    reviews,
-    filterOptions: {
-      unitSelected,
-      startDate,
-      endDate
-    }
-  })
-
   useEffect(() => {
     const currentDate = new Date();
     const months = Array.from({ length: 12 }).map((_, index) => {
@@ -238,7 +227,7 @@ export function useNpsTotalResponsesPerMonthChart() {
         },
       },
     });
-  }, [filteredReviews, theme, initialChartOptions, reviews]);
+  }, [filteredReviews, theme, initialChartOptions]);
 
   return { chartData };
 }

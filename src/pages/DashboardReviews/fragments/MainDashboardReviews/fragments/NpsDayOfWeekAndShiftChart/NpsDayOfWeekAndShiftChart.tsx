@@ -2,10 +2,15 @@ import Chart from "@/components/ui/chart";
 import { useFiltersContext } from "@/contexts/FiltersProvider/filters-provider";
 import { ApexOptions } from "apexcharts";
 import { useNpsDayOfWeekAndShiftChart } from "./NpsDayOfWeekAndShiftChart.hook";
+import { IReview } from "@/interfaces/IReview";
 
-export const NpsDayOfWeekAndShiftChart = () => {
+interface NpsDayOfWeekAndShiftChartProps {
+  filteredReviews: IReview[];
+}
+
+const NpsDayOfWeekAndShiftChart = (filteredReviews: NpsDayOfWeekAndShiftChartProps) => {
   const { unitSelected } = useFiltersContext();
-  const { NpsDayOfWeekAndShiftChartData } = useNpsDayOfWeekAndShiftChart();
+  const { NpsDayOfWeekAndShiftChartData } = useNpsDayOfWeekAndShiftChart(filteredReviews);
 
   return (
     <div className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg col-span-1 xl:col-span-3">
@@ -22,3 +27,5 @@ export const NpsDayOfWeekAndShiftChart = () => {
     </div>
   );
 };
+
+export default NpsDayOfWeekAndShiftChart

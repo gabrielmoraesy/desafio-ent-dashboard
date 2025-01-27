@@ -2,11 +2,16 @@ import Chart from "@/components/ui/chart";
 import { useFiltersContext } from "@/contexts/FiltersProvider/filters-provider";
 import { ApexOptions } from "apexcharts";
 import { useNpsDayOfWeekChart } from "./NpsDayOfWeekChart.hook";
+import { IReview } from "@/interfaces/IReview";
 
-export const NpsDayOfWeekChart = () => {
+interface NpsDayOfWeekChartProps {
+  filteredReviews: IReview[];
+}
+
+const NpsDayOfWeekChart = (filteredReviews: NpsDayOfWeekChartProps) => {
   const { unitSelected } = useFiltersContext();
 
-  const { NpsDayOfWeekChartData } = useNpsDayOfWeekChart();
+  const { NpsDayOfWeekChartData } = useNpsDayOfWeekChart(filteredReviews);
 
   return (
     <div className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg col-span-1 xl:col-span-2">
@@ -23,3 +28,5 @@ export const NpsDayOfWeekChart = () => {
     </div>
   );
 };
+
+export default NpsDayOfWeekChart

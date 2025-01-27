@@ -1,5 +1,3 @@
-import { useFiltersContext } from "@/contexts/FiltersProvider/filters-provider";
-import { useFilter } from "@/hooks/useFilter";
 import { IReview } from "@/interfaces/IReview";
 import { useMemo } from "react";
 
@@ -14,18 +12,7 @@ interface useHeaderDashboardReviewsProps {
     nps: string;
 }
 
-export const useHeaderDashboardReviews = (reviews: IReview[]): useHeaderDashboardReviewsProps => {
-    const { unitSelected, startDate, endDate } = useFiltersContext();
-
-    const { filteredReviews } = useFilter({
-        reviews,
-        filterOptions: {
-            unitSelected,
-            startDate,
-            endDate
-        }
-    })
-
+export const useHeaderDashboardReviews = (filteredReviews: IReview[]): useHeaderDashboardReviewsProps => {
     const totalReviews = filteredReviews.length;
 
     const detratores = useMemo(() => {
