@@ -33,7 +33,7 @@ export const HeaderDashboardReviews = () => {
                 <h1 className="text-xl sm:text-3xl font-semibold uppercase text-center sm:text-left">
                     Net Promoter Score <span className="capitalize">{unitSelected && `| Unidade ${unitSelected}`}</span>
                 </h1>
-                <div className="flex justify-center items-center gap-1.5 mt-2">
+                <div className="flex justify-center items-center gap-1.5 mt-2 sm:mt-0">
                     {startDate && endDate &&
                         <p className="text-xs sm:text-base">
                             Período selecionado: {startDateFormatted} a {endDateFormatted}
