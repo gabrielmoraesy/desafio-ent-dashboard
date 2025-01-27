@@ -1,15 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { useFiltersContext } from "@/contexts/FiltersProvider/filters-provider";
+import { useReviewsContext } from "@/contexts/ReviewsProvider/reviews-provider";
 import { IReview } from "@/interfaces/IReview";
 import { useFeedbackTable } from "./FeedbackTable.hook";
 
-interface FeedbackTableProps {
-    filteredReviews: IReview[];
-}
-
-const FeedbackTable = ({ filteredReviews }: FeedbackTableProps) => {
-    const { unitSelected } = useFiltersContext();
+const FeedbackTable = () => {
+    const { unitSelected } = useReviewsContext();
 
     const {
         currentReviews,
@@ -19,7 +15,7 @@ const FeedbackTable = ({ filteredReviews }: FeedbackTableProps) => {
         handleNextPage,
         handleJumpBack,
         handleJumpForward,
-    } = useFeedbackTable(filteredReviews);
+    } = useFeedbackTable();
 
     return (
         <div className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg col-span-1 xl:col-span-3">

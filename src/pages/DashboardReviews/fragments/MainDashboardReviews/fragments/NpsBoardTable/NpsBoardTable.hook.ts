@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useFiltersContext } from "@/contexts/FiltersProvider/filters-provider";
-import { IReview } from "@/interfaces/IReview";
+import { useReviewsContext } from "@/contexts/ReviewsProvider/reviews-provider";
 import { useEffect, useMemo, useState } from "react";
 
 interface NpsResult {
@@ -12,15 +11,11 @@ interface NpsResult {
     rank: number;
 }
 
-interface useNpsBoardTableProps {
-    filteredReviews: IReview[]
-}
-
-export function useNpsBoardTable({ filteredReviews }: useNpsBoardTableProps) {
+export function useNpsBoardTable() {
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
 
-    const { unitSelected } = useFiltersContext();
+    const { unitSelected, filteredReviews } = useReviewsContext();
 
     const calculateNps = (promoters: number, detractors: number, total: number) => {
         if (total === 0) return 0;

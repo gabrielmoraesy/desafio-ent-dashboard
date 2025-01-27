@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useFiltersContext } from "@/contexts/FiltersProvider/filters-provider";
+import { useReviewsContext } from "@/contexts/ReviewsProvider/reviews-provider";
 import { useTheme } from "@/contexts/ThemeProvider/theme-provider";
 import { IReview } from "@/interfaces/IReview";
 import { useEffect, useMemo, useState } from "react";
@@ -79,8 +79,8 @@ interface ISeries {
   data: number[];
 }
 
-export function useNpsUnitChart(filteredReviews: IReview[]) {
-  const { setUnitSelected } = useFiltersContext();
+export function useNpsUnitChart() {
+  const { setUnitSelected, filteredReviews } = useReviewsContext();
   const { theme } = useTheme();
 
   const reviewsByUnit = useMemo(() => {

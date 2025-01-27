@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import * as Modal from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { useFiltersContext } from "@/contexts/FiltersProvider/filters-provider";
+import { useReviewsContext } from "@/contexts/ReviewsProvider/reviews-provider";
 import { useChangePopStateEvent } from "@/hooks/useChangePopStateEvent";
 import { X } from "lucide-react";
 import { useCallback, useState, useTransition } from "react";
@@ -41,7 +41,7 @@ export function FilterDataModal({
   isOpen,
   setIsOpen,
 }: FilterDataModalProps) {
-  const { setStartDate, setEndDate, beforeStartDate, setBeforeStartDate, beforeEndDate, setBeforeEndDate } = useFiltersContext();
+  const { setStartDate, setEndDate, beforeStartDate, setBeforeStartDate, beforeEndDate, setBeforeEndDate } = useReviewsContext();
   const [errors, setErrors] = useState<string | null>(null);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, startTransition] = useTransition()

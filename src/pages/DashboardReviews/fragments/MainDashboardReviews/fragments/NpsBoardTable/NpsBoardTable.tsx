@@ -8,16 +8,11 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { useFiltersContext } from "@/contexts/FiltersProvider/filters-provider";
+import { useReviewsContext } from "@/contexts/ReviewsProvider/reviews-provider";
 import { useNpsBoardTable } from "./NpsBoardTable.hook";
-import { IReview } from "@/interfaces/IReview";
 
-interface NpsBoardTableProps {
-    filteredReviews: IReview[]
-}
-
-export const NpsBoardTable = (filteredReviews: NpsBoardTableProps) => {
-    const { unitSelected } = useFiltersContext();
+export const NpsBoardTable = () => {
+    const { unitSelected } = useReviewsContext();
 
     const {
         npsTableData,
@@ -25,7 +20,7 @@ export const NpsBoardTable = (filteredReviews: NpsBoardTableProps) => {
         currentPage,
         handlePreviousPage,
         handleNextPage,
-    } = useNpsBoardTable(filteredReviews);
+    } = useNpsBoardTable();
 
     return (
         <div className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg overflow-auto min-h-[381px]">

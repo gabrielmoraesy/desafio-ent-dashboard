@@ -1,4 +1,4 @@
-import { IReview } from "@/interfaces/IReview";
+import { useReviewsContext } from "@/contexts/ReviewsProvider/reviews-provider";
 import { useMemo } from "react";
 
 interface useHeaderDashboardReviewsProps {
@@ -12,7 +12,9 @@ interface useHeaderDashboardReviewsProps {
     nps: string;
 }
 
-export const useHeaderDashboardReviews = (filteredReviews: IReview[]): useHeaderDashboardReviewsProps => {
+export const useHeaderDashboardReviews = (): useHeaderDashboardReviewsProps => {
+    const { filteredReviews } = useReviewsContext();
+
     const totalReviews = filteredReviews.length;
 
     const detratores = useMemo(() => {

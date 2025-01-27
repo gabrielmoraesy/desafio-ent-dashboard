@@ -8,16 +8,11 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { useFiltersContext } from "@/contexts/FiltersProvider/filters-provider";
+import { useReviewsContext } from "@/contexts/ReviewsProvider/reviews-provider";
 import { useNpsSquareTable } from "./NpsSquareTable.hook";
-import { IReview } from "@/interfaces/IReview";
 
-interface NpsPorPracaTableProps {
-    filteredReviews: IReview[]
-}
-
-export const NpsPorPracaTable = (filteredReviews: NpsPorPracaTableProps) => {
-    const { unitSelected } = useFiltersContext();
+export const NpsPorPracaTable = () => {
+    const { unitSelected } = useReviewsContext();
 
     const {
         npsSquareData,
@@ -25,7 +20,7 @@ export const NpsPorPracaTable = (filteredReviews: NpsPorPracaTableProps) => {
         currentPage,
         handlePreviousPage,
         handleNextPage,
-    } = useNpsSquareTable(filteredReviews);
+    } = useNpsSquareTable();
 
     return (
         <div className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg overflow-auto min-h-[381px]">

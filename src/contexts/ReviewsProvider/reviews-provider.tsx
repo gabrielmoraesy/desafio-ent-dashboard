@@ -1,7 +1,12 @@
 /* eslint-disable react-refresh/only-export-components */
+import { useReviews } from "@/api/reviews";
+import { useFilter } from "@/hooks/useFilter";
+import { IReview } from "@/interfaces/IReview";
 import React, { createContext, ReactNode, useContext, useState } from "react";
 
-interface FiltersContextType {
+interface ReviewsContextType {
+    filteredReviews: IReview[]
+    isLoadingReviews: boolean;
     unitSelected: string;
     setUnitSelected: React.Dispatch<React.SetStateAction<string>>;
     startDate: string;
@@ -14,9 +19,9 @@ interface FiltersContextType {
     setBeforeEndDate: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const FiltersContext = createContext<FiltersContextType | undefined>(undefined);
+const ReviewsContext = createContext<ReviewsContextType | undefined>(undefined);
 
-export const FiltersProvider = ({ children }: { children: ReactNode }) => {
+export const ReviewsProvider = ({ children }: { children: ReactNode }) => {
     const [unitSelected, setUnitSelected] = useState<string>("");
     const [startDate, setStartDate] = useState<string>("");
     const [endDate, setEndDate] = useState<string>(new Date().toISOString().split("T")[0]);
@@ -24,9 +29,18 @@ export const FiltersProvider = ({ children }: { children: ReactNode }) => {
     const [beforeStartDate, setBeforeStartDate] = useState<string>("");
     const [beforeEndDate, setBeforeEndDate] = useState<string>(new Date().toISOString().split("T")[0]);
 
+    const { data: reviews = [], isLoading: isLoadingReviews } = useReviews();
+
+    const { filteredReviews } = useFilter({
+        reviews,
+        filterOptions: { unitSelected, startDate, endDate },
+    });
+
     return (
-        <FiltersContext.Provider
+        <ReviewsContext.Provider
             value={{
+                filteredReviews,
+                isLoadingReviews,
                 unitSelected,
                 setUnitSelected,
                 startDate,
@@ -40,14 +54,14 @@ export const FiltersProvider = ({ children }: { children: ReactNode }) => {
             }}
         >
             {children}
-        </FiltersContext.Provider>
+        </ReviewsContext.Provider>
     );
 };
 
-export const useFiltersContext = (): FiltersContextType => {
-    const context = useContext(FiltersContext);
+export const useReviewsContext = (): ReviewsContextType => {
+    const context = useContext(ReviewsContext);
     if (!context) {
-        throw new Error("useFiltersContext must be used within a FiltersProvider");
+        throw new Error("useReviewsContext must be used within a ReviewsProvider");
     }
     return context;
 };

@@ -1,17 +1,12 @@
 import Chart from "@/components/ui/chart";
-import { useFiltersContext } from "@/contexts/FiltersProvider/filters-provider";
+import { useReviewsContext } from "@/contexts/ReviewsProvider/reviews-provider";
 import { ApexOptions } from "apexcharts";
 import { FilterX } from "lucide-react";
 import { useNpsUnitChart } from "./NpsUnitChart.hook";
-import { IReview } from "@/interfaces/IReview";
 
-interface NpsUnitChartProps {
-  filteredReviews: IReview[];
-}
-
-export const NpsUnitChart = ({ filteredReviews }: NpsUnitChartProps) => {
-  const { unitSelected, setUnitSelected } = useFiltersContext();
-  const { NpsUnitChartData } = useNpsUnitChart(filteredReviews);
+export const NpsUnitChart = () => {
+  const { unitSelected, setUnitSelected } = useReviewsContext();
+  const { NpsUnitChartData } = useNpsUnitChart();
 
   return (
     <div className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg col-span-1 xl:col-span-2">

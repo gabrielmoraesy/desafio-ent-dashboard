@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import './App.css';
 import { AppSidebar } from "./components/Sidebar/Sidebar";
 import { SidebarProvider } from "./components/ui/sidebar";
-import { FiltersProvider } from "./contexts/FiltersProvider/filters-provider";
+import { ReviewsProvider } from "./contexts/ReviewsProvider/reviews-provider";
 import { ThemeProvider } from './contexts/ThemeProvider/theme-provider';
 import { About } from './pages/About';
 import { DashboardFinances } from "./pages/DashboardFinances";
@@ -20,7 +20,7 @@ export const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-        <FiltersProvider>
+        <ReviewsProvider>
           <SidebarProvider>
             <AppSidebar />
 
@@ -35,7 +35,7 @@ export const App = () => {
               </BrowserRouter>
             </div>
           </SidebarProvider>
-        </FiltersProvider>
+        </ReviewsProvider>
       </ThemeProvider>
     </QueryClientProvider>
   );

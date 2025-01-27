@@ -1,17 +1,11 @@
 import Chart from "@/components/ui/chart";
-import { useFiltersContext } from "@/contexts/FiltersProvider/filters-provider";
+import { useReviewsContext } from "@/contexts/ReviewsProvider/reviews-provider";
 import { ApexOptions } from "apexcharts";
 import { useNpsTotalResponsesPerMonthChart } from "./NpsTotalResponsesPerMonthChart.hook";
-import { IReview } from "@/interfaces/IReview";
 
-interface NpsTotalResponsesPerMonthChartProps {
-  filteredReviews: IReview[];
-}
-
-
-export const NpsTotalResponsesPerMonthChart = (filteredReviews: NpsTotalResponsesPerMonthChartProps) => {
-  const { unitSelected } = useFiltersContext();
-  const { chartData } = useNpsTotalResponsesPerMonthChart(filteredReviews);
+export const NpsTotalResponsesPerMonthChart = () => {
+  const { unitSelected } = useReviewsContext();
+  const { chartData } = useNpsTotalResponsesPerMonthChart();
 
   return (
     <div className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg col-span-1 xl:col-span-2">

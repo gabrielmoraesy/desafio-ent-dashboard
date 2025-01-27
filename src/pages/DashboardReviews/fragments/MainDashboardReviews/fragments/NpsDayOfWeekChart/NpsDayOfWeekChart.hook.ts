@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { useReviewsContext } from "@/contexts/ReviewsProvider/reviews-provider";
 import { useTheme } from "@/contexts/ThemeProvider/theme-provider";
 import { IReview } from "@/interfaces/IReview";
 import { useEffect, useState } from "react";
@@ -75,13 +76,9 @@ interface ISeries {
   data: number[];
 }
 
-interface useNpsDayOfWeekChartProps {
-  filteredReviews: IReview[]
-}
-
-export function useNpsDayOfWeekChart({ filteredReviews }: useNpsDayOfWeekChartProps) {
-
+export function useNpsDayOfWeekChart() {
   const { theme } = useTheme();
+  const { filteredReviews } = useReviewsContext();
 
   const initialChartOptions: IChartOptions = {
     colors: ["#3C83C4", "#FFBD33", "#33FF57", "#1f1f1f"],

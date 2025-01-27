@@ -1,15 +1,11 @@
+import { useReviewsContext } from "@/contexts/ReviewsProvider/reviews-provider";
 import { useTheme } from "@/contexts/ThemeProvider/theme-provider";
-import { IReview } from "@/interfaces/IReview";
 import { ApexOptions } from "apexcharts";
 import { useEffect, useState } from "react";
 
-interface useNpsDistributionChartProps {
-  filteredReviews: IReview[]
-}
-
-
-export function useNpsDistributionChart({ filteredReviews }: useNpsDistributionChartProps) {
+export function useNpsDistributionChart() {
   const { theme } = useTheme();
+  const { filteredReviews } = useReviewsContext();
 
   const [chartData, setChartData] = useState<{
     options: ApexOptions;

@@ -1,9 +1,8 @@
-import { useFiltersContext } from "@/contexts/FiltersProvider/filters-provider";
-import { IReview } from "@/interfaces/IReview";
+import { useReviewsContext } from "@/contexts/ReviewsProvider/reviews-provider";
 import { useEffect, useState } from "react";
 
-export function useFeedbackTable(filteredReviews: IReview[]) {
-    const { unitSelected } = useFiltersContext();
+export function useFeedbackTable() {
+    const { unitSelected, filteredReviews } = useReviewsContext();
 
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;

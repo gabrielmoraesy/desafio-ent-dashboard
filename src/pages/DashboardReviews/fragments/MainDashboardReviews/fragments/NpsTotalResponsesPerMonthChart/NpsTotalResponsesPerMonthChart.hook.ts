@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { useReviewsContext } from "@/contexts/ReviewsProvider/reviews-provider";
 import { useTheme } from "@/contexts/ThemeProvider/theme-provider";
-import { IReview } from "@/interfaces/IReview";
 import { format, subMonths } from "date-fns";
 import { useEffect, useMemo, useState } from "react";
 
@@ -79,12 +79,9 @@ interface ISeries {
   data: number[];
 }
 
-interface useNpsTotalResponsesPerMonthChartProps {
-  filteredReviews: IReview[]
-}
-
-export function useNpsTotalResponsesPerMonthChart({ filteredReviews }: useNpsTotalResponsesPerMonthChartProps) {
+export function useNpsTotalResponsesPerMonthChart() {
   const { theme } = useTheme();
+  const { filteredReviews } = useReviewsContext();
 
   const initialChartOptions = useMemo<IChartOptions>(() => ({
     colors: ["#1E90FF", "#32CD32"],
