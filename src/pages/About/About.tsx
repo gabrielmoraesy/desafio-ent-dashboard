@@ -23,7 +23,7 @@ export const About = () => {
         <li className="flex items-center mb-2">
           <SiReact className="text-2xl mr-2" />
           <SiTailwindcss className="text-2xl mr-2" />
-          <span><strong>Front-end:</strong> React Vite, Tailwind CSS, ApexCharts, ShadCn, React-hot-toast e Json Server.</span>
+          <span><strong>Front-end:</strong> React Vite, Tailwind CSS, ApexCharts, React Query, ShadCn, React-hot-toast e Json Server.</span>
         </li>
         <li className="flex items-center mb-2">
           <FaCloud className="text-2xl mr-2" />
