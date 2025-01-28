@@ -91,8 +91,8 @@ export function FilterDataModal({
           <h2 className="text-2xl">Filtros</h2>
         </Modal.DialogHeader>
         <div className="w-full flex flex-col gap-2 justify-center items-center">
-          <p className="text-base">Selecione o período:</p>
-          <div className="flex items-center gap-2">
+          <p className="text-sm sm:text-base">Selecione o período:</p>
+          <div className="flex flex-col sm:flex-row items-center gap-2">
             <Input
               type="date"
               className="border-2 border-[#2d6294]"
